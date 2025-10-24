@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+  "dev": "concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
+  "dev:vite": "vite",
+  "dev:electron": "wait-on http://localhost:5173 && electron .",
+  "build": "vite build",
+  "start": "NODE_ENV=production electron ."
+    },
   "dependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
