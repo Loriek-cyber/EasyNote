@@ -14,13 +14,7 @@ function createWindow() {
     },
   });
   win.removeMenu();
-  if (process.env.NODE_ENV === 'development') {
-    win.loadURL('http://localhost:5173'); // React dev server
-    // open devtools automatically in development for easier debugging
-    win.webContents.openDevTools({ mode: 'right' });
-  } else {
-    win.loadFile(path.join(__dirname, '../dist/index.html'));
-  }
+  win.loadURL('http://localhost:5173'); // React dev server
 }
 
 app.whenReady().then(() => {
