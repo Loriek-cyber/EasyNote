@@ -3,8 +3,6 @@ A simple notetaking application in Markdown and using a Latex compiler combine, 
 
 
 # Usage?
-'''
+```
 npm start dev
-'''
-
-
+```
