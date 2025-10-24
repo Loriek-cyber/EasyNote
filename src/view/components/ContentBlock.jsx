@@ -95,7 +95,6 @@ function ContentBlock({ value, onChange, onNewBlock, onDelete, isLast }) {
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder="Type '/' for commands..."
         rows={1}
       />
       {showSlashMenu && (

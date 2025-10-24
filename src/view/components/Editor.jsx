@@ -5,12 +5,10 @@ import MarkdownRenderer from './MarkdownRenderer';
 function Editor({ document, onUpdate, onDocumentLinkClick }) {
   const [title, setTitle] = useState('');
   const [blocks, setBlocks] = useState(['']);
-  const [isPreview, setIsPreview] = useState(false);
 
   useEffect(() => {
     if (document) {
       setTitle(document.title || '');
-      // Dividi il contenuto in blocchi (per ora usiamo un singolo blocco)
       setBlocks([document.content || '']);
     }
   }, [document]);
@@ -60,7 +58,7 @@ function Editor({ document, onUpdate, onDocumentLinkClick }) {
           <div className="empty-state-icon">📝</div>
           <div className="empty-state-title">No document selected</div>
           <div className="empty-state-description">
-            Select a document from the sidebar or create a new one to get started
+            Select a document from the sidebar or create a new one
           </div>
         </div>
       </div>
@@ -75,37 +73,32 @@ function Editor({ document, onUpdate, onDocumentLinkClick }) {
           className="document-title-input"
           value={title}
           onChange={handleTitleChange}
-          placeholder="Untitled Document"
+          placeholder="Untitled"
         />
         <div className="document-path">{document.path}</div>
-        <div style={{ marginTop: '12px' }}>
-          <button
-            onClick={() => setIsPreview(!isPreview)}
-            style={{ marginRight: '8px' }}
-          >
-            {isPreview ? '✏️ Edit' : '👁️ Preview'}
-          </button>
-        </div>
       </div>
       <div className="editor-container">
         <div className="editor-content">
-          {isPreview ? (
-            <MarkdownRenderer
-              content={blocks.join('\n\n')}
-              onDocumentLinkClick={onDocumentLinkClick}
-            />
-          ) : (
-            blocks.map((block, index) => (
-              <ContentBlock
-                key={index}
-                value={block}
-                onChange={(value) => handleBlockChange(index, value)}
-                onNewBlock={() => handleNewBlock(index)}
-                onDelete={() => handleDeleteBlock(index)}
-                isLast={blocks.length === 1}
+          <div className="split-view">
+            <div className="edit-pane">
+              {blocks.map((block, index) => (
+                <ContentBlock
+                  key={index}
+                  value={block}
+                  onChange={(value) => handleBlockChange(index, value)}
+                  onNewBlock={() => handleNewBlock(index)}
+                  onDelete={() => handleDeleteBlock(index)}
+                  isLast={blocks.length === 1}
+                />
+              ))}
+            </div>
+            <div className="preview-pane">
+              <MarkdownRenderer
+                content={blocks.join('\n\n')}
+                onDocumentLinkClick={onDocumentLinkClick}
               />
-            ))
-          )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

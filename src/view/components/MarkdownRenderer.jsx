@@ -4,72 +4,42 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 
 function MarkdownRenderer({ content, onDocumentLinkClick }) {
-  // Processa i collegamenti documenti <col>nome<col>
-  const processDocumentLinks = (text) => {
-    const linkRegex = /<col>([^<]+)<col>/g;
-    const parts = [];
-    let lastIndex = 0;
-    let match;
-
-    while ((match = linkRegex.exec(text)) !== null) {
-      // Aggiungi il testo prima del link
-      if (match.index > lastIndex) {
-        parts.push({
-          type: 'text',
-          content: text.slice(lastIndex, match.index)
-        });
-      }
-      
-      // Aggiungi il link
-      parts.push({
-        type: 'link',
-        content: match[1]
-      });
-      
-      lastIndex = match.index + match[0].length;
-    }
-    
-    // Aggiungi il testo rimanente
-    if (lastIndex < text.length) {
-      parts.push({
-        type: 'text',
-        content: text.slice(lastIndex)
-      });
-    }
-    
-    return parts;
+  // Preprocessa il contenuto per convertire i link personalizzati
+  const processContent = (text) => {
+    // Sostituisci <col>text<col> con [text](doc://text)
+    return text.replace(/<col>([^<]+)<col>/g, '[🔗 $1](doc://$1)');
   };
 
   const components = {
-    p: ({ children }) => {
-      // Converti children in stringa per processare i link
-      const text = String(children);
-      const parts = processDocumentLinks(text);
-      
-      if (parts.length === 0) {
-        return <p>{children}</p>;
+    a: ({ node, href, children, ...props }) => {
+      // Gestisci i link ai documenti
+      if (href && href.startsWith('doc://')) {
+        const docName = href.replace('doc://', '');
+        return (
+          <span
+            className="doc-link"
+            onClick={() => onDocumentLinkClick && onDocumentLinkClick(docName)}
+            {...props}
+          >
+            {children}
+          </span>
+        );
       }
-      
-      return (
-        <p>
-          {parts.map((part, index) => {
-            if (part.type === 'link') {
-              return (
-                <span
-                  key={index}
-                  className="doc-link"
-                  onClick={() => onDocumentLinkClick && onDocumentLinkClick(part.content)}
-                >
-                  {part.content}
-                </span>
-              );
-            }
-            return <span key={index}>{part.content}</span>;
-          })}
-        </p>
-      );
+      return <a href={href} {...props}>{children}</a>;
     }
   };
+
+  const processedContent = processContent(content);
+
+  if (!processedContent.trim()) {
+    return (
+      <div className="markdown-content">
+        <p style={{ color: 'var(--color-text-tertiary)', fontStyle: 'italic' }}>
+          Start typing to see preview...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="markdown-content">
@@ -78,7 +48,7 @@ function MarkdownRenderer({ content, onDocumentLinkClick }) {
         rehypePlugins={[rehypeKatex]}
         components={components}
       >
-        {content}
+        {processedContent}
       </ReactMarkdown>
     </div>
   );
