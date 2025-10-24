@@ -12,10 +12,9 @@
     "start": "concurrently \"npm run dev:vite\" \"npm run dev:electron\""
   },
   "dependencies": {
-    "better-sqlite3": "^12.4.1",
-    "mongodb": "^6.20.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

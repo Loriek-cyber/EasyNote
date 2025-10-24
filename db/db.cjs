@@ -12,10 +12,10 @@ class DatabaseManager {
     return new Promise((resolve, reject) => {
       this.db = new sqlite3.Database(dbPath, (err) => {
         if (err) {
-          console.error('Errore nella connessione al database:', err);
+          console.error('Errore di connessione al database SQLite:', err.message);
           reject(err);
         } else {
-          console.log(`Connesso al database SQLite: ${dbPath}`);
+          console.log('Connesso al database SQLite:', dbPath);
           resolve();
         }
       });
