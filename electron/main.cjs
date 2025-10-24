@@ -6,12 +6,18 @@ function createWindow() {
     width: 900,
     height: 700,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+        // preload script in this project is named preload.cjs
+        preload: path.join(__dirname, 'preload.cjs'),
+        // security: isolate renderer and disable node integration
+        contextIsolation: true,
+        nodeIntegration: false,
     },
   });
   win.removeMenu();
   if (process.env.NODE_ENV === 'development') {
     win.loadURL('http://localhost:5173'); // React dev server
+    // open devtools automatically in development for easier debugging
+    win.webContents.openDevTools({ mode: 'right' });
   } else {
     win.loadFile(path.join(__dirname, '../dist/index.html'));
   }
