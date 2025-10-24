@@ -118,6 +118,7 @@ function App() {
     }
   };
 
+  
   if (loading) {
     return (
       <div className="app-container">
