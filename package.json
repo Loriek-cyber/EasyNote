@@ -12,8 +12,12 @@
     "start": "concurrently \"npm run dev:vite\" \"npm run dev:electron\""
   },
   "dependencies": {
+    "@electron/rebuild": "^4.0.1",
+    "path": "^0.12.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "rxdb": "^16.20.0",
+    "rxjs": "^7.8.2",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {

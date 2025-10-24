@@ -21,4 +21,30 @@ export class Document {
                this.title === other.title &&
                this.content === other.content &&
                this.path === other.path;}
+
+
+    schema = {
+        title: 'document schema',
+        version: 0,
+        description: 'A schema for documents',
+        type: 'object',
+        properties: {
+            id: {
+                type: 'string',
+                primary: true
+            },
+            title: {
+                type: 'string',
+                maxLength: 100
+            },
+            content: {
+                type: 'string',
+                maxLength: 10000
+            },
+            path: {
+                type: 'string',
+                maxLength: 255
+            }
+        },
+        required: ['id', 'title', 'content', 'path']  }
     }
