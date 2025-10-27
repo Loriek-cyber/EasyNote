@@ -1,48 +1,51 @@
-import { useEffect, useState } from 'react';
-import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import React, { useEffect, useState } from 'react';
+import Sidebar from './components/Sidebar';
+import EditorPane from './components/EditorPane';
+import Settings from './components/Settings';
+import Toast from './components/Toast';
+import useStore from './store/useStore';
 
 function App() {
-  const [notes, setNotes] = useState([]);
-
-  const editor = useEditor({ extensions: [StarterKit], content: '' });
+  const [showSettings, setShowSettings] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '' });
+  const createNote = useStore((s) => s.createNote);
 
   useEffect(() => {
-    if (window?.api && typeof window.api.getNotes === 'function') {
-      window.api.getNotes().then(setNotes).catch((error) => {
-        console.error('Errore nel recupero delle note:', error);
-      });
-    } else {
-      console.warn('window.api.getNotes is not available');
-    }
-  }, []);
-
-  const saveNote = () => {
-    const content = editor?.getHTML ? editor.getHTML() : '';
-
-    if (window?.api && typeof window.api.addNote === 'function') {
-      window.api
-        .addNote({ title: 'Nuova nota', content })
-        .then(() => {
-          if (typeof window.api.getNotes === 'function') {
-            window.api.getNotes().then(setNotes).catch((error) => console.error('Errore nel recupero delle note:', error));
-          }
-        })
-        .catch((error) => console.error('Errore nel salvataggio della nota:', error));
-    } else {
-      console.warn('window.api.addNote is not available');
-    }
-  };
+    const onKey = (e) => {
+      const mod = (e.ctrlKey || e.metaKey);
+      if (mod && e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        createNote().then(() => setToast({ show: true, message: 'Nota creata' }));
+        setTimeout(() => setToast({ show: false, message: '' }), 1500);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [createNote]);
 
   return (
-    <div className="p-4 flex gap-4">
-      <div className="w-1/3 border-r">
-        {notes.map(n => <div key={n.id}>{n.title}</div>)}
-      </div>
-      <div className="flex-1">
-        <EditorContent editor={editor} />
-        <button onClick={saveNote} className="bg-blue-500 text-white px-4 py-2 rounded mt-4">Salva</button>
-      </div>
+    <div className="h-screen flex bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <Sidebar />
+
+      <main className="flex-1 flex flex-col">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+          <div className="text-xl font-semibold">EasyNote</div>
+          <div className="flex items-center gap-3">
+            <button className="px-3 py-1 rounded" onClick={() => setShowSettings(s => !s)}>Settings</button>
+          </div>
+        </div>
+
+        <div className="flex-1 flex overflow-hidden">
+          <EditorPane />
+          {showSettings && (
+            <aside className="w-96 border-l bg-white dark:bg-gray-800">
+              <Settings />
+            </aside>
+          )}
+        </div>
+      </main>
+
+      <Toast message={toast.message} show={toast.show} />
     </div>
   );
 }
