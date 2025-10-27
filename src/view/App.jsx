@@ -4,15 +4,34 @@ import StarterKit from '@tiptap/starter-kit';
 
 function App() {
   const [notes, setNotes] = useState([]);
+
   const editor = useEditor({ extensions: [StarterKit], content: '' });
 
   useEffect(() => {
-    window.api.getNotes().then(setNotes);
+    if (window?.api && typeof window.api.getNotes === 'function') {
+      window.api.getNotes().then(setNotes).catch((error) => {
+        console.error('Errore nel recupero delle note:', error);
+      });
+    } else {
+      console.warn('window.api.getNotes is not available');
+    }
   }, []);
 
   const saveNote = () => {
-    const content = editor.getHTML();
-    window.api.addNote({ title: 'Nuova nota', content }).then(() => window.api.getNotes().then(setNotes));
+    const content = editor?.getHTML ? editor.getHTML() : '';
+
+    if (window?.api && typeof window.api.addNote === 'function') {
+      window.api
+        .addNote({ title: 'Nuova nota', content })
+        .then(() => {
+          if (typeof window.api.getNotes === 'function') {
+            window.api.getNotes().then(setNotes).catch((error) => console.error('Errore nel recupero delle note:', error));
+          }
+        })
+        .catch((error) => console.error('Errore nel salvataggio della nota:', error));
+    } else {
+      console.warn('window.api.addNote is not available');
+    }
   };
 
   return (
