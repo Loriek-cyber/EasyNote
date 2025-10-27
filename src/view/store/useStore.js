@@ -18,6 +18,7 @@ const useStore = create((set, get) => ({
     set({ selectedId: id });
     return id;
   },
+  setSelectedId: (id) => set({ selectedId: id }),
   updateNote: async (note) => {
     try {
       await window.api.updateNote(note);

@@ -22,7 +22,7 @@ app.on('ready', () => {
 
   // initialize DB using helper (store DB in app userData)
   const dbPath = path.join(app.getPath('userData'), 'notes.db');
-  const initDb = require(path.join(__dirname, 'db.js'));
+  const initDb = require(path.join(__dirname, 'db.cjs'));
   db = initDb(dbPath);
 
   // IPC channels for renderer

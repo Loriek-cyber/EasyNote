@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import useStore from '../store/useStore';
 
 export default function Settings() {
-  const { settings, loadSettings, setSettings } = useStore((s) => ({
-    settings: s.settings,
-    loadSettings: s.loadSettings,
-    setSettings: s.setSettings
-  }));
+  const settings = useStore((s) => s.settings);
+  const loadSettings = useStore((s) => s.loadSettings);
+  const setSettings = useStore((s) => s.setSettings);
 
-  useEffect(() => { loadSettings(); }, [loadSettings]);
+  useEffect(() => { loadSettings(); // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [local, setLocal] = useState(settings);
 

@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import useStore from '../store/useStore';
 
 export default function Sidebar() {
-  const { notes, loadNotes, createNote } = useStore((state) => ({
-    notes: state.notes,
-    loadNotes: state.loadNotes,
-    createNote: state.createNote
-  }));
-
+  const notes = useStore((state) => state.notes);
+  const loadNotes = useStore((state) => state.loadNotes);
+  const createNote = useStore((state) => state.createNote);
   const selectedId = useStore((s) => s.selectedId);
 
   const [q, setQ] = useState('');
 
   useEffect(() => {
     loadNotes();
+    // intentionally run once on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
