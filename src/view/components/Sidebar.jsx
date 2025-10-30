@@ -71,7 +71,13 @@ export default function Sidebar() {
               <div className="font-medium">{note.title || 'Untitled'}</div>
               <div className="text-xs text-gray-500">{new Date(note.updated_at || 0).toLocaleDateString()}</div>
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 overflow-hidden truncate">{(note.content || '').replace(/<[^>]+>/g, '').slice(0, 80)}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 overflow-hidden truncate">
+              {(note.content || '')
+                .replace(/[`*_>#\-\[\]\(\)!]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .slice(0, 80)}
+            </div>
             <div className="mt-2 flex gap-2">
               {Array.from(new Set(Array.from((`${note.title || ''} ${note.content || ''}`).matchAll(/#([a-zA-Z0-9_-]+)/g)).map(r=>r[1]))).slice(0,3).map(t => (
                 <span key={t} className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">#{t}</span>

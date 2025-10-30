@@ -1,153 +1,170 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import useStore from '../store/useStore';
-import SlashMenu from './SlashMenu';
+import 'katex/dist/katex.min.css';
 
 export default function EditorPane() {
   const notes = useStore((s) => s.notes);
   const selectedId = useStore((s) => s.selectedId);
   const updateNote = useStore((s) => s.updateNote);
 
-  const [current, setCurrent] = useState(null);
-  const [showSlash, setShowSlash] = useState(false);
-  const [slashPos, setSlashPos] = useState({ x: 0, y: 0 });
-  const slashRequestRef = useRef(null);
+  const currentNote = useMemo(
+    () => notes.find((note) => note.id === selectedId) || null,
+    [notes, selectedId]
+  );
+
+  const [draftTitle, setDraftTitle] = useState('');
+  const [draftContent, setDraftContent] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+
+  const lastPersistedRef = useRef({ id: null, title: '', content: '' });
+  const saveTimerRef = useRef(null);
 
   useEffect(() => {
-    const n = notes.find(x => x.id === selectedId) || null;
-    setCurrent(n);
-  }, [notes, selectedId]);
-
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: current ? current.content : ''
-  });
-
-  // when selected note changes, set editor content
-  useEffect(() => {
-    if (editor && current) {
-      editor.commands.setContent(current.content || '');
+    if (!currentNote) {
+      setDraftTitle('');
+      setDraftContent('');
+      lastPersistedRef.current = { id: null, title: '', content: '' };
+      return;
     }
-  }, [editor, current]);
 
-  // Slash command detection
+    const initialTitle = currentNote.title || '';
+    const initialContent = currentNote.content || '';
+
+    setDraftTitle(initialTitle);
+    setDraftContent(initialContent);
+    lastPersistedRef.current = {
+      id: currentNote.id,
+      title: initialTitle,
+      content: initialContent
+    };
+  }, [currentNote?.id]);
+
   useEffect(() => {
-    if (!editor) return;
+    if (!currentNote) return undefined;
 
-    const checkSlash = () => {
-      try {
-        const pos = editor.state.selection.from;
-        const start = Math.max(0, pos - 3);
-        const before = editor.state.doc.textBetween(start, pos, '\n', '\n');
-        if (before.endsWith('/**') || before.endsWith('/')) {
-          // compute coordinates
-          const coords = editor.view.coordsAtPos(pos);
-          const rect = editor.view.dom.getBoundingClientRect();
-          setSlashPos({ x: coords.left - rect.left, y: coords.bottom - rect.top });
-          setShowSlash(true);
-        } else {
-          setShowSlash(false);
-        }
-      } catch (e) {
-        // ignore
-      }
-    };
+    const hasChanges =
+      draftTitle !== lastPersistedRef.current.title ||
+      draftContent !== lastPersistedRef.current.content;
 
-    const handler = () => {
-      if (slashRequestRef.current) clearTimeout(slashRequestRef.current);
-      slashRequestRef.current = setTimeout(checkSlash, 50);
-    };
+    if (!hasChanges) return undefined;
 
-    editor.on('update', handler);
-    editor.on('selectionUpdate', handler);
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+
+    saveTimerRef.current = setTimeout(() => {
+      setIsSaving(true);
+      const payload = {
+        id: currentNote.id,
+        title: draftTitle.trim() === '' ? 'Untitled' : draftTitle,
+        content: draftContent
+      };
+      updateNote(payload)
+        .then(() => {
+          lastPersistedRef.current = {
+            id: currentNote.id,
+            title: payload.title,
+            content: payload.content
+          };
+        })
+        .finally(() => setIsSaving(false));
+    }, 240);
+
     return () => {
-      editor.off('update', handler);
-      editor.off('selectionUpdate', handler);
-      if (slashRequestRef.current) clearTimeout(slashRequestRef.current);
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     };
-  }, [editor]);
+  }, [draftTitle, draftContent, currentNote?.id, updateNote]);
 
-  // autosave (debounced)
-  useEffect(() => {
-    if (!editor) return;
-    let t;
-    const handler = () => {
-      if (!current) return;
-      clearTimeout(t);
-      t = setTimeout(() => {
-        const content = editor.getHTML();
-        updateNote({ id: current.id, title: (current.title || '').slice(0, 64), content }).catch(console.error);
-      }, 800);
-    };
-    editor.on('update', handler);
-    return () => editor.off('update', handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, current]);
+  useEffect(() => () => {
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+  }, []);
 
-  if (!current) {
-    return <div className="p-8 text-gray-500">Select or create a note</div>;
-  }
-
-  const applySlashCommand = async (cmd) => {
-    if (!editor) return;
-    const pos = editor.state.selection.from;
-    const start = Math.max(0, pos - 3);
-    // remove the trigger
-    editor.chain().focus().command(({ tr, dispatch }) => {
-      tr.delete(start, pos);
-      if (dispatch) dispatch(tr);
-      return true;
-    }).run();
-
-    // execute command
-    switch (cmd) {
-      case 'paragraph':
-        editor.chain().focus().setParagraph().run();
-        break;
-      case 'heading':
-        editor.chain().focus().toggleHeading({ level: 2 }).run();
-        break;
-      case 'bullet':
-        editor.chain().focus().toggleBulletList().run();
-        break;
-      case 'checkbox':
-        editor.chain().focus().insertContentAt(editor.state.selection.from, '<p>☐ </p>').run();
-        break;
-      case 'code':
-        editor.chain().focus().setCodeBlock().run();
-        break;
-      case 'quote':
-        editor.chain().focus().toggleBlockquote().run();
-        break;
-      default:
-        break;
-    }
-
-    // close menu
-    setShowSlash(false);
+  const applyLocalUpdate = (changes) => {
+    if (!currentNote) return;
+    useStore.setState((state) => ({
+      notes: state.notes.map((note) =>
+        note.id === currentNote.id
+          ? { ...note, ...changes, updated_at: Date.now() }
+          : note
+      )
+    }));
   };
 
-  return (
-    <div className="flex-1 p-6 relative">
-      <div className="mb-3">
-        <input
-          className="w-full text-2xl font-bold bg-transparent outline-none"
-          value={current.title || ''}
-          onChange={(e) => useStore.setState((state) => {
-            const note = state.notes.find(n => n.id === current.id);
-            if (note) note.title = e.target.value;
-            return { notes: state.notes };
-          })}
-        />
+  const handleTitleChange = (value) => {
+    setDraftTitle(value);
+    applyLocalUpdate({ title: value });
+  };
+
+  const handleContentChange = (value) => {
+    setDraftContent(value);
+    applyLocalUpdate({ content: value });
+  };
+
+  const renderedMarkdown = useMemo(
+    () => (
+      <ReactMarkdown
+        className="prose prose-invert max-w-none"
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+      >
+        {draftContent || '*Inizia a scrivere per vedere l\'anteprima live.*'}
+      </ReactMarkdown>
+    ),
+    [draftContent]
+  );
+
+  if (!currentNote) {
+    return (
+      <div className="flex-1 flex items-center justify-center text-gray-400 text-lg">
+        Seleziona o crea una nota per iniziare.
       </div>
-      <div className="prose max-w-none">
-        <EditorContent editor={editor} />
+    );
+  }
+
+  return (
+    <div className="flex-1 flex flex-col gap-6 p-6 overflow-hidden">
+      <div>
+        <input
+          className="w-full text-3xl font-bold bg-transparent outline-none text-gray-100 placeholder-gray-500"
+          placeholder="Titolo senza limiti"
+          value={draftTitle}
+          onChange={(event) => handleTitleChange(event.target.value)}
+        />
+        <div className="mt-2 text-sm text-gray-400 flex items-center gap-2">
+          {isSaving ? (
+            <span className="text-emerald-300">Salvataggio…</span>
+          ) : (
+            <span className="text-gray-500">Tutte le modifiche sono salvate</span>
+          )}
+          <span className="h-1 w-1 rounded-full bg-gray-600" />
+          <span>{new Date(currentNote.updated_at || Date.now()).toLocaleString()}</span>
+        </div>
       </div>
 
-      {showSlash && (
-        <SlashMenu x={slashPos.x} y={slashPos.y} onSelect={applySlashCommand} />
-      )}
+      <div className="flex-1 grid grid-cols-1 gap-4 lg:grid-cols-2 min-h-0">
+        <section className="flex flex-col rounded-xl border border-white/10 bg-white/5 backdrop-blur">
+          <header className="flex items-center justify-between border-b border-white/10 px-4 py-2 text-sm uppercase tracking-[0.2em] text-gray-400">
+            Editor Markdown
+            <span className="text-xs lowercase text-gray-500">Realtime</span>
+          </header>
+          <textarea
+            className="flex-1 w-full resize-none bg-transparent p-4 font-mono text-base leading-relaxed text-gray-100 focus:outline-none"
+            placeholder="Scrivi qui usando la sintassi Markdown, supportiamo formule LaTeX, liste, heading e molto altro."
+            value={draftContent}
+            onChange={(event) => handleContentChange(event.target.value)}
+          />
+        </section>
+
+        <section className="flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur">
+          <header className="border-b border-white/10 px-4 py-2 text-sm uppercase tracking-[0.2em] text-gray-400">
+            Anteprima
+          </header>
+          <div className="flex-1 overflow-auto px-6 py-4 text-gray-100">
+            {renderedMarkdown}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
