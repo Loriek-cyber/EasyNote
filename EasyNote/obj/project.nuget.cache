@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "t7uuGexYcl0=",
+  "dgSpecHash": "bT+yJoxqTVk=",
   "success": true,
   "projectFilePath": "C:\\Users\\Arjel Buzi\\RiderProjects\\EasyNote\\EasyNote\\EasyNote.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\avalonedit\\6.3.1.120\\avalonedit.6.3.1.120.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\litedb\\6.0.0-prerelease.73\\litedb.6.0.0-prerelease.73.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\markdig\\0.43.0\\markdig.0.43.0.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\microsoft.web.webview2\\1.0.3595.46\\microsoft.web.webview2.1.0.3595.46.nupkg.sha512"
+  ],
   "logs": []
 }

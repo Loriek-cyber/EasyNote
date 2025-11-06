@@ -43,6 +43,24 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "AvalonEdit": {
+              "target": "Package",
+              "version": "[6.3.1.120, )"
+            },
+            "LiteDB": {
+              "target": "Package",
+              "version": "[6.0.0-prerelease.73, )"
+            },
+            "Markdig": {
+              "target": "Package",
+              "version": "[0.43.0, )"
+            },
+            "Microsoft.Web.WebView2": {
+              "target": "Package",
+              "version": "[1.0.3595.46, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

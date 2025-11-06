@@ -1,22 +1,12 @@
-﻿namespace EasyNote.Models;
-
-public class Document {
-    private string _title;
-    private string _text;
-    public Document(string title, string text)
+﻿namespace EasyNote.Models
+{
+    public class Document
     {
-        _title = title;
-        _text = text;
-    }
-    
-    //il return è il get? ma che diavolo? va be
-    public string Text
-    {
-        get => _text;
-    }
-
-    public string Title
-    {
-        get => _title;
+        public string Id { get; set; }           // LiteDB usa string/Guid
+        public string Path {get; set;}          //il path per la gestione delle cartelle all'interno dal file explorer
+        public string Title { get; set; }
+        public string Content { get; set; }      // Markdown o LaTeX
+        public string Mode { get; set; }         // "Markdown" | "LaTeX"
+        public DateTime LastModified { get; set; }
     }
 }
