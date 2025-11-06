@@ -4,8 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="EasyNote" Height="450" Width="800">
-        
-        
+        Title="EasyNote" Height="600" Width="1000" WindowStartupLocation="CenterScreen">
     
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/> <!-- Sidebar -->
+            <ColumnDefinition Width="*"/>   <!-- Main Editor -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <StackPanel Grid.Column="0" Background="#FF2D2D30">
+            
+        </StackPanel>
+
+        <!-- Main Editor -->
+        <Grid Grid.Column="1" Background="#FF2D2D30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Settings Button at the Top Right -->
+            <Button Content="Settings" Width="100" Height="30" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+
+            <!-- Editor Area -->
+            <RichTextBox Grid.Row="1" Margin="20" VerticalScrollBarVisibility="Auto"  Background="#FF2D2123"/>
+        </Grid>
+    </Grid>
 </Window>

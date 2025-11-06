@@ -18,4 +18,6 @@ C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\ref
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\VIew\MainWindow.g.cs
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\VIew\MainWindow.baml
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\EasyNote.sourcelink.json
-C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\VIew\Settings.g.cs
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\EasyNote_MarkupCompile.lref
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\VIew\Settings.baml
