@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using EasyNote.Models;
 namespace EasyNote;
 
 /// <summary>
@@ -42,4 +42,11 @@ public partial class MainWindow : Window
     {
         Close();
     }
+    
+    private void starter_Click(object sender, RoutedEventArgs e)
+    {
+        Document dc = new Document();
+        dc.Content = "Hello world";
+    }
+    
 }
