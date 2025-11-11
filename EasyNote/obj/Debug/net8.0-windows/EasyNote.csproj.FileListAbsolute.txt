@@ -36,3 +36,7 @@ C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Mic
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\EasyNote.csproj.AssemblyReference.cache
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\EasyNote_Content.g.cs
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\EasyNote.csproj.Up2Date
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\SidebarView.baml
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\TerminalView.baml
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\TerminalView.g.cs

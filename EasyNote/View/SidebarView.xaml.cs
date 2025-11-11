@@ -6,6 +6,11 @@ public partial class SidebarView : UserControl
 {
     public SidebarView()
     {
-        InitializeComponent();
+       
+    }
+    
+    public static void invisible()
+    {
+        
     }
 }

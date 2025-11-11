@@ -1,52 +1,52 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using EasyNote.Models;
-namespace EasyNote;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace EasyNote
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-    }
-    
-    
-    private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-        if (e.ChangedButton == MouseButton.Left)
-            this.DragMove();
-    }
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
 
-    private void Minimize_Click(object sender, RoutedEventArgs e)
-    {
-        WindowState = WindowState.Minimized;
-    }
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
 
-    private void Maximize_Click(object sender, RoutedEventArgs e)
-    {
-        WindowState = (WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
-    }
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
 
-    private void Close_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Close_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ((System.Windows.Controls.Button)sender).Background = new SolidColorBrush(Color.FromRgb(180, 0, 0));
+        }
+
+        private void Close_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ((System.Windows.Controls.Button)sender).Background = Brushes.Transparent;
+        }
     }
-    
-    private void starter_Click(object sender, RoutedEventArgs e)
-    {
-        Document dc = new Document();
-        dc.Content = "Hello world";
-    }
-    
 }
