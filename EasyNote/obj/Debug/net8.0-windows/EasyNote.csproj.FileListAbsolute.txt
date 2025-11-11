@@ -40,3 +40,5 @@ C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\Gen
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\SidebarView.baml
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\TerminalView.baml
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\TerminalView.g.cs
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\Visualer.g.cs
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\Visualer.baml
