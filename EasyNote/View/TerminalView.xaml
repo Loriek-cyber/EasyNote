@@ -17,6 +17,5 @@
                  BorderThickness="0"
                  BorderBrush="Transparent" >
         </TextBox>
-        
     </Grid>
 </UserControl>

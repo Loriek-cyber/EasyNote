@@ -1,23 +1,38 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
-
+using EasyNote.Services;
 namespace EasyNote.View;
 
 public partial class TerminalView : UserControl
 {
+    // Riferimento al Visualer da aggiornare
+
     public TerminalView()
     {
         InitializeComponent();
     }
 
-
-    private void TextBox_KeyDown(object sender, KeyEventArgs e)
+    private async void TextBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter && sender is TextBox textBox)
         {
-            Console.WriteLine(textBox.Text);  // Do something with the text
-            textBox.Clear();                  // Optional: clear the box
-            e.Handled = true;                 // Stops the "ding" sound and event bubbling
+            string text = textBox.Text;
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                try
+                {
+                    string currentText = VisualerService.ActiveView?.OriginalText ?? "";
+                    await VisualerService.UpdateContentAsync(currentText + "\n" + text);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Update error: {ex.Message}");
+                }
+            }
+
+            textBox.Clear();
+            e.Handled = true;
         }
     }
 }
