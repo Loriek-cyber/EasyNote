@@ -42,3 +42,9 @@ C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\Vie
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\TerminalView.g.cs
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\Visualer.g.cs
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\Visualer.baml
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syncfusion.Edit.WPF.dll
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syncfusion.GridCommon.WPF.dll
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syncfusion.Licensing.dll
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syncfusion.Shared.WPF.dll
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syncfusion.Tools.WPF.dll
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\System.Reflection.MetadataLoadContext.dll

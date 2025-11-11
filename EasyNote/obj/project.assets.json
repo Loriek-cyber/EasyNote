@@ -63,6 +63,155 @@
             "rid": "win-x86"
           }
         }
+      },
+      "Syncfusion.Edit.WPF/31.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.GridCommon.Wpf": "31.2.5",
+          "Syncfusion.Licensing": "31.2.5",
+          "Syncfusion.Shared.WPF": "31.2.5",
+          "Syncfusion.Tools.WPF": "31.2.5",
+          "System.Reflection.MetadataLoadContext": "6.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows7.0/Syncfusion.Edit.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/Syncfusion.Edit.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Syncfusion.GridCommon.Wpf/31.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0-windows7.0/Syncfusion.GridCommon.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/Syncfusion.GridCommon.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Syncfusion.Licensing/31.2.5": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Syncfusion.Licensing.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/Syncfusion.Licensing.dll": {}
+        }
+      },
+      "Syncfusion.Shared.WPF/31.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.Licensing": "31.2.5"
+        },
+        "compile": {
+          "lib/net8.0-windows7.0/Syncfusion.Shared.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/Syncfusion.Shared.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Syncfusion.Tools.WPF/31.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.Licensing": "31.2.5",
+          "Syncfusion.Shared.WPF": "31.2.5"
+        },
+        "compile": {
+          "lib/net8.0-windows7.0/Syncfusion.Tools.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/Syncfusion.Tools.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.Collections.Immutable/6.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/System.Collections.Immutable.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Collections.Immutable.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "System.Reflection.Metadata/6.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.Immutable": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/System.Reflection.Metadata.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Reflection.Metadata.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "System.Reflection.MetadataLoadContext/6.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.Immutable": "6.0.0",
+          "System.Reflection.Metadata": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/System.Reflection.MetadataLoadContext.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Reflection.MetadataLoadContext.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
+        }
       }
     }
   },
@@ -222,6 +371,230 @@
         "tools/wv2winrt/zh-Hans/System.CommandLine.resources.dll",
         "tools/wv2winrt/zh-Hant/System.CommandLine.resources.dll"
       ]
+    },
+    "Syncfusion.Edit.WPF/31.2.5": {
+      "sha512": "IIgOX24404b6LIwkMWbHFLll3K4y2Tl8v/dLJHdwCNUsstS+OO40LGfL2oc6dX/CwYJQi142fAMz190a6EThlw==",
+      "type": "package",
+      "path": "syncfusion.edit.wpf/31.2.5",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net462/Design/Syncfusion.Design.Wpf.dll",
+        "lib/net462/Design/Syncfusion.Edit.WPF.DesignTools.dll",
+        "lib/net462/Design/Syncfusion.Edit.Wpf.Expression.Design.dll",
+        "lib/net462/Design/Syncfusion.Edit.Wpf.VisualStudio.Design.dll",
+        "lib/net462/Design/Syncfusion.Edit.Wpf.dll.Design.dll",
+        "lib/net462/Syncfusion.Edit.WPF.dll",
+        "lib/net462/Syncfusion.Edit.WPF.xml",
+        "lib/net8.0-windows7.0/Design/Syncfusion.Edit.WPF.DesignTools.dll",
+        "lib/net8.0-windows7.0/Syncfusion.Edit.WPF.dll",
+        "lib/net8.0-windows7.0/Syncfusion.Edit.WPF.xml",
+        "lib/net9.0-windows7.0/Design/Syncfusion.Edit.WPF.DesignTools.dll",
+        "lib/net9.0-windows7.0/Syncfusion.Edit.WPF.dll",
+        "lib/net9.0-windows7.0/Syncfusion.Edit.WPF.xml",
+        "syncfusion.edit.wpf.31.2.5.nupkg.sha512",
+        "syncfusion.edit.wpf.nuspec",
+        "syncfusion_logo.png",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "Syncfusion.GridCommon.Wpf/31.2.5": {
+      "sha512": "E9arHpKZ9bfbLbgzEm5frMet46AbMh7ySFiOPnjkrFC/gZ+1r91Ov+jkeYToK4w9RvgX4RMQHLccU/yYImK3QQ==",
+      "type": "package",
+      "path": "syncfusion.gridcommon.wpf/31.2.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "lib/net462/Syncfusion.GridCommon.WPF.dll",
+        "lib/net462/Syncfusion.GridCommon.WPF.xml",
+        "lib/net8.0-windows7.0/Syncfusion.GridCommon.WPF.dll",
+        "lib/net8.0-windows7.0/Syncfusion.GridCommon.WPF.xml",
+        "lib/net9.0-windows7.0/Syncfusion.GridCommon.WPF.dll",
+        "lib/net9.0-windows7.0/Syncfusion.GridCommon.WPF.xml",
+        "syncfusion.gridcommon.wpf.31.2.5.nupkg.sha512",
+        "syncfusion.gridcommon.wpf.nuspec",
+        "syncfusion_logo.png"
+      ]
+    },
+    "Syncfusion.Licensing/31.2.5": {
+      "sha512": "2Vc8HETl47XRMfJ5aYmBjSuQvNVW9gnOpFQHUyByjzsfJhlBU+Lz9H4jkDiekG9uHl3sL417aJNeJRvwR4mBOA==",
+      "type": "package",
+      "path": "syncfusion.licensing/31.2.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/MonoAndroid90/Syncfusion.Licensing.dll",
+        "lib/Xamarin.Mac/Syncfusion.Licensing.dll",
+        "lib/Xamarin.iOS10/Syncfusion.Licensing.dll",
+        "lib/net462/Syncfusion.Licensing.dll",
+        "lib/net8.0/Syncfusion.Licensing.dll",
+        "lib/net9.0/Syncfusion.Licensing.dll",
+        "lib/netstandard2.0/Syncfusion.Licensing.dll",
+        "lib/uap10.0/Syncfusion.Licensing.dll",
+        "syncfusion.licensing.31.2.5.nupkg.sha512",
+        "syncfusion.licensing.nuspec",
+        "syncfusion_logo.png"
+      ]
+    },
+    "Syncfusion.Shared.WPF/31.2.5": {
+      "sha512": "Km19UgCMU7E+rKb4gC73TacV63wfxWlOsT0XGTHStPfjOxgXuY9fWPyKtTnxZw30yt9fIhvjw6VjvHo4xBZX+A==",
+      "type": "package",
+      "path": "syncfusion.shared.wpf/31.2.5",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net462/Design/Syncfusion.Design.Wpf.dll",
+        "lib/net462/Design/Syncfusion.Shared.WPF.DesignTools.dll",
+        "lib/net462/Design/Syncfusion.Shared.Wpf.Expression.Design.dll",
+        "lib/net462/Design/Syncfusion.Shared.Wpf.VisualStudio.Design.dll",
+        "lib/net462/Design/Syncfusion.Shared.Wpf.dll.Design.dll",
+        "lib/net462/Syncfusion.Shared.WPF.dll",
+        "lib/net462/Syncfusion.Shared.WPF.xml",
+        "lib/net8.0-windows7.0/Design/Syncfusion.Shared.WPF.DesignTools.dll",
+        "lib/net8.0-windows7.0/Syncfusion.Shared.WPF.dll",
+        "lib/net8.0-windows7.0/Syncfusion.Shared.WPF.xml",
+        "lib/net9.0-windows7.0/Design/Syncfusion.Shared.WPF.DesignTools.dll",
+        "lib/net9.0-windows7.0/Syncfusion.Shared.WPF.dll",
+        "lib/net9.0-windows7.0/Syncfusion.Shared.WPF.xml",
+        "syncfusion.shared.wpf.31.2.5.nupkg.sha512",
+        "syncfusion.shared.wpf.nuspec",
+        "syncfusion_logo.png",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "Syncfusion.Tools.WPF/31.2.5": {
+      "sha512": "fkq20kuQqaK4c8kaFxBkHJ1V1wYEYbsThT5LjtD54aQzXb1CzCgKwZ8RmCBAPcy5YD4lP3Z/vBFzO8zsiZ69dw==",
+      "type": "package",
+      "path": "syncfusion.tools.wpf/31.2.5",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net462/Design/Syncfusion.Design.Wpf.dll",
+        "lib/net462/Design/Syncfusion.Tools.WPF.DesignTools.dll",
+        "lib/net462/Design/Syncfusion.Tools.Wpf.Expression.Design.dll",
+        "lib/net462/Design/Syncfusion.Tools.Wpf.VisualStudio.Design.dll",
+        "lib/net462/Design/Syncfusion.Tools.Wpf.dll.Design.dll",
+        "lib/net462/Syncfusion.Tools.WPF.dll",
+        "lib/net462/Syncfusion.Tools.WPF.xml",
+        "lib/net8.0-windows7.0/Design/Syncfusion.Tools.WPF.DesignTools.dll",
+        "lib/net8.0-windows7.0/Syncfusion.Tools.WPF.dll",
+        "lib/net8.0-windows7.0/Syncfusion.Tools.WPF.xml",
+        "lib/net9.0-windows7.0/Design/Syncfusion.Tools.WPF.DesignTools.dll",
+        "lib/net9.0-windows7.0/Syncfusion.Tools.WPF.dll",
+        "lib/net9.0-windows7.0/Syncfusion.Tools.WPF.xml",
+        "syncfusion.tools.wpf.31.2.5.nupkg.sha512",
+        "syncfusion.tools.wpf.nuspec",
+        "syncfusion_logo.png",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "System.Collections.Immutable/6.0.0": {
+      "sha512": "l4zZJ1WU2hqpQQHXz1rvC3etVZN+2DLmQMO79FhOTZHMn8tDRr+WU287sbomD0BETlmKDn0ygUgVy9k5xkkJdA==",
+      "type": "package",
+      "path": "system.collections.immutable/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Collections.Immutable.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Collections.Immutable.dll",
+        "lib/net461/System.Collections.Immutable.xml",
+        "lib/net6.0/System.Collections.Immutable.dll",
+        "lib/net6.0/System.Collections.Immutable.xml",
+        "lib/netstandard2.0/System.Collections.Immutable.dll",
+        "lib/netstandard2.0/System.Collections.Immutable.xml",
+        "system.collections.immutable.6.0.0.nupkg.sha512",
+        "system.collections.immutable.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Reflection.Metadata/6.0.0": {
+      "sha512": "sffDOcex1C3HO5kDolOYcWXTwRpZY/LvJujM6SMjn63fWMJWchYAAmkoAJXlbpZ5yf4d+KMgxd+LeETa4gD9sQ==",
+      "type": "package",
+      "path": "system.reflection.metadata/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Reflection.Metadata.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Reflection.Metadata.dll",
+        "lib/net461/System.Reflection.Metadata.xml",
+        "lib/net6.0/System.Reflection.Metadata.dll",
+        "lib/net6.0/System.Reflection.Metadata.xml",
+        "lib/netstandard2.0/System.Reflection.Metadata.dll",
+        "lib/netstandard2.0/System.Reflection.Metadata.xml",
+        "system.reflection.metadata.6.0.0.nupkg.sha512",
+        "system.reflection.metadata.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Reflection.MetadataLoadContext/6.0.0": {
+      "sha512": "SuK8qTHbmG3PToLo1TEq8YSfY31FiKhASBmjozUTAleDgiX4H2X4jm0VPFb+K2soSSmYPyHTpHp35TctfNtDzQ==",
+      "type": "package",
+      "path": "system.reflection.metadataloadcontext/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Reflection.MetadataLoadContext.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Reflection.MetadataLoadContext.dll",
+        "lib/net461/System.Reflection.MetadataLoadContext.xml",
+        "lib/net6.0/System.Reflection.MetadataLoadContext.dll",
+        "lib/net6.0/System.Reflection.MetadataLoadContext.xml",
+        "lib/netcoreapp3.1/System.Reflection.MetadataLoadContext.dll",
+        "lib/netcoreapp3.1/System.Reflection.MetadataLoadContext.xml",
+        "lib/netstandard2.0/System.Reflection.MetadataLoadContext.dll",
+        "lib/netstandard2.0/System.Reflection.MetadataLoadContext.xml",
+        "system.reflection.metadataloadcontext.6.0.0.nupkg.sha512",
+        "system.reflection.metadataloadcontext.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+      "sha512": "/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
+      "type": "package",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -229,7 +602,9 @@
       "AvalonEdit >= 6.3.1.120",
       "LiteDB >= 6.0.0-prerelease.73",
       "Markdig >= 0.43.0",
-      "Microsoft.Web.WebView2 >= 1.0.3595.46"
+      "Microsoft.Web.WebView2 >= 1.0.3595.46",
+      "Syncfusion.Edit.WPF >= 31.2.5",
+      "Syncfusion.Shared.WPF >= 31.2.5"
     ]
   },
   "packageFolders": {
@@ -290,6 +665,14 @@
           "Microsoft.Web.WebView2": {
             "target": "Package",
             "version": "[1.0.3595.46, )"
+          },
+          "Syncfusion.Edit.WPF": {
+            "target": "Package",
+            "version": "[31.2.5, )"
+          },
+          "Syncfusion.Shared.WPF": {
+            "target": "Package",
+            "version": "[31.2.5, )"
           }
         },
         "imports": [

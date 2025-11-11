@@ -21,6 +21,8 @@
       <PackageReference Include="LiteDB" Version="6.0.0-prerelease.73" />
       <PackageReference Include="Markdig" Version="0.43.0" />
       <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
+      <PackageReference Include="Syncfusion.Edit.WPF" Version="31.2.5" />
+      <PackageReference Include="Syncfusion.Shared.WPF" Version="31.2.5" />
     </ItemGroup>
 
     <ItemGroup>

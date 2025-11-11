@@ -59,6 +59,14 @@
             "Microsoft.Web.WebView2": {
               "target": "Package",
               "version": "[1.0.3595.46, )"
+            },
+            "Syncfusion.Edit.WPF": {
+              "target": "Package",
+              "version": "[31.2.5, )"
+            },
+            "Syncfusion.Shared.WPF": {
+              "target": "Package",
+              "version": "[31.2.5, )"
             }
           },
           "imports": [

@@ -1,13 +1,22 @@
 {
   "version": 2,
-  "dgSpecHash": "bT+yJoxqTVk=",
+  "dgSpecHash": "Pul9/6FMNJE=",
   "success": true,
   "projectFilePath": "C:\\Users\\Arjel Buzi\\RiderProjects\\EasyNote\\EasyNote\\EasyNote.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Arjel Buzi\\.nuget\\packages\\avalonedit\\6.3.1.120\\avalonedit.6.3.1.120.nupkg.sha512",
     "C:\\Users\\Arjel Buzi\\.nuget\\packages\\litedb\\6.0.0-prerelease.73\\litedb.6.0.0-prerelease.73.nupkg.sha512",
     "C:\\Users\\Arjel Buzi\\.nuget\\packages\\markdig\\0.43.0\\markdig.0.43.0.nupkg.sha512",
-    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\microsoft.web.webview2\\1.0.3595.46\\microsoft.web.webview2.1.0.3595.46.nupkg.sha512"
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\microsoft.web.webview2\\1.0.3595.46\\microsoft.web.webview2.1.0.3595.46.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\syncfusion.edit.wpf\\31.2.5\\syncfusion.edit.wpf.31.2.5.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\syncfusion.gridcommon.wpf\\31.2.5\\syncfusion.gridcommon.wpf.31.2.5.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\syncfusion.licensing\\31.2.5\\syncfusion.licensing.31.2.5.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\syncfusion.shared.wpf\\31.2.5\\syncfusion.shared.wpf.31.2.5.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\syncfusion.tools.wpf\\31.2.5\\syncfusion.tools.wpf.31.2.5.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\system.reflection.metadata\\6.0.0\\system.reflection.metadata.6.0.0.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\system.reflection.metadataloadcontext\\6.0.0\\system.reflection.metadataloadcontext.6.0.0.nupkg.sha512",
+    "C:\\Users\\Arjel Buzi\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }
