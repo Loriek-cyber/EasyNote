@@ -1,43 +1,43 @@
-﻿using System.Collections;
+﻿using System.IO;
 using System.Xml;
 
 namespace EasyNote.Syntax;
 
-public class SyntaxHelper
+public static class SyntaxHelper
 {
-    public static Syntax cpp = new Syntax("Cpp");
-    public static Syntax java = new Syntax("Java");
-    public static Syntax python = new Syntax("Python");
-    public static Syntax json = new Syntax("JSON");
-    public static Syntax php = new Syntax("PHP");
-    public static Syntax latex = new Syntax("Latex");
-    public static Syntax powershell = new Syntax("PowerShell");
-    public static Syntax javascrip = new Syntax("JavaScript");
-    public static Syntax sql = new Syntax("SQL");
-    public static Syntax typescript = new Syntax("TypeScript");
-    public static Syntax markdown = new Syntax("MarkDown");
-    private const string Path = @"C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\Syntax";
+    public static readonly SyntaxDefinition Cpp = new("Cpp");
+    public static readonly SyntaxDefinition Java = new("Java");
+    public static readonly SyntaxDefinition Python = new("Python");
+    public static readonly SyntaxDefinition Json = new("JSON");
+    public static readonly SyntaxDefinition Php = new("PHP");
+    public static readonly SyntaxDefinition Latex = new("Latex");
+    public static readonly SyntaxDefinition PowerShell = new("PowerShell");
+    public static readonly SyntaxDefinition JavaScript = new("JavaScript");
+    public static readonly SyntaxDefinition Sql = new("SQL");
+    public static readonly SyntaxDefinition TypeScript = new("TypeScript");
+    public static readonly SyntaxDefinition Markdown = new("MarkDown");
 
-    public class Syntax
+    private static readonly string SyntaxDirectory = Path.Combine(AppContext.BaseDirectory, "Syntax");
+
+    public sealed class SyntaxDefinition
     {
-        private string _name;
-        public XmlReader Reader { get; }
+        private readonly string _name;
 
-        public Syntax(string Name)
+        internal SyntaxDefinition(string name)
         {
-            _name = Name;
-            try
-            {
-                string p = (Path + @"\")+_name + ".xshd";
-                
-                Console.WriteLine("[Temp] File: "+ p);
-                Reader = XmlReader.Create(p);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("[SyntaxHelper] Errore con la lettura del file XSHD");
-            }
+            _name = name;
         }
 
+        public XmlReader CreateReader()
+        {
+            var filePath = Path.Combine(SyntaxDirectory, $"{_name}.xshd");
+
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"Unable to locate syntax definition '{_name}'.", filePath);
+            }
+
+            return XmlReader.Create(filePath);
+        }
     }
 }

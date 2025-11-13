@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EasyNote.Services;
 using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using EasyNote.Syntax;
 namespace EasyNote.View
 
@@ -55,20 +55,60 @@ namespace EasyNote.View
             // Remove scrollbars
             TextEditor.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             TextEditor.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            TextEditor.SyntaxHighlighting = HighlightingLoader.Load(SyntaxHelper.markdown.Reader, HighlightingManager.Instance);
-
-            
             // Populate language selector
             LanguageSelector.ItemsSource = _codeLanguages;
             LanguageSelector.SelectedIndex = 0;
-            
+
             // Set initial highlighting
             UpdateSyntaxHighlighting();
         }
 
         private void UpdateSyntaxHighlighting()
         {
-            
+            try
+            {
+                IHighlightingDefinition? definition = _currentMode switch
+                {
+                    EditorMode.Markdown => LoadHighlighting(SyntaxHelper.Markdown),
+                    EditorMode.Latex => LoadHighlighting(SyntaxHelper.Latex),
+                    EditorMode.Code => ResolveCodeHighlighting(_selectedLanguage),
+                    _ => null
+                };
+
+                TextEditor.SyntaxHighlighting = definition;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Syntax] Failed to update highlighting: {ex.Message}");
+                TextEditor.SyntaxHighlighting = null;
+            }
+        }
+
+        private static IHighlightingDefinition? LoadHighlighting(SyntaxHelper.SyntaxDefinition syntax)
+        {
+            using var reader = syntax.CreateReader();
+            return HighlightingLoader.Load(reader, HighlightingManager.Instance);
+        }
+
+        private static IHighlightingDefinition? ResolveCodeHighlighting(string language)
+        {
+            return language switch
+            {
+                "C#" => HighlightingManager.Instance.GetDefinition("C#"),
+                "JavaScript" => LoadHighlighting(SyntaxHelper.JavaScript),
+                "Python" => LoadHighlighting(SyntaxHelper.Python),
+                "C++" => LoadHighlighting(SyntaxHelper.Cpp),
+                "Java" => LoadHighlighting(SyntaxHelper.Java),
+                "XML" => HighlightingManager.Instance.GetDefinition("XML"),
+                "HTML" => HighlightingManager.Instance.GetDefinition("HTML"),
+                "CSS" => HighlightingManager.Instance.GetDefinition("CSS") ?? HighlightingManager.Instance.GetDefinition("JavaScript"),
+                "SQL" => LoadHighlighting(SyntaxHelper.Sql),
+                "PowerShell" => LoadHighlighting(SyntaxHelper.PowerShell),
+                "PHP" => LoadHighlighting(SyntaxHelper.Php),
+                "TypeScript" => LoadHighlighting(SyntaxHelper.TypeScript),
+                "JSON" => LoadHighlighting(SyntaxHelper.Json),
+                _ => HighlightingManager.Instance.GetDefinition(language) ?? HighlightingManager.Instance.GetDefinition("Text")
+            };
         }
 
         private void OnModeChanged(object sender, RoutedEventArgs e)

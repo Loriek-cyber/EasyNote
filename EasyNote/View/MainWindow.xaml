@@ -8,14 +8,44 @@
         AllowsTransparency="True"
         Background="Transparent">
 
-    <Border CornerRadius="10" BorderThickness="1" BorderBrush="#444" Background="#222" SnapsToDevicePixels="True">
+    <Window.Resources>
+        <SolidColorBrush x:Key="WindowSurfaceBrush" Color="#0B1120" />
+        <SolidColorBrush x:Key="ContentSurfaceBrush" Color="#101A32" />
+        <SolidColorBrush x:Key="WindowBorderBrush" Color="#1E293B" />
+        <SolidColorBrush x:Key="TitleBarBrush" Color="#111C3A" />
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E2E8F0" />
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#94A3B8" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#38BDF8" />
+
+        <Style x:Key="TitleBarButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="12" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="10"
+            BorderThickness="1"
+            BorderBrush="{StaticResource WindowBorderBrush}"
+            Background="{StaticResource WindowSurfaceBrush}"
+            SnapsToDevicePixels="True">
         <Grid>
             <!-- Custom title bar -->
-            <DockPanel Background="#333" Height="35" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
+            <DockPanel Background="{StaticResource TitleBarBrush}" Height="35" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
                 <TextBlock Text="EasyNote"
                            VerticalAlignment="Center"
                            Margin="15,0,0,0"
-                           Foreground="White"
+                           Foreground="{StaticResource PrimaryTextBrush}"
                            FontSize="13"/>
 
                 <StackPanel Orientation="Horizontal"
@@ -23,32 +53,18 @@
                             VerticalAlignment="Center"
                             Margin="0,0,10,0">
                     <Button Content="🗕"
-                            Width="30"
-                            Height="25"
                             Click="Minimize_Click"
-                            Background="Transparent"
-                            Foreground="White"
-                            BorderThickness="0"
-                            ToolTip="Minimize"
-                            Cursor="Hand"/>
+                            Style="{StaticResource TitleBarButtonStyle}"
+                            ToolTip="Minimize"/>
                     <Button Content="🗖"
-                            Width="30"
-                            Height="25"
                             Click="Maximize_Click"
-                            Background="Transparent"
-                            Foreground="White"
-                            BorderThickness="0"
-                            ToolTip="Maximize"
-                            Cursor="Hand"/>
+                            Style="{StaticResource TitleBarButtonStyle}"
+                            ToolTip="Maximize"/>
                     <Button Content="✕"
-                            Width="30"
-                            Height="25"
                             Click="Close_Click"
-                            Background="Transparent"
-                            Foreground="White"
-                            BorderThickness="0"
+                            Style="{StaticResource TitleBarButtonStyle}"
+                            Foreground="{StaticResource PrimaryTextBrush}"
                             ToolTip="Close"
-                            Cursor="Hand"
                             MouseEnter="Close_MouseEnter"
                             MouseLeave="Close_MouseLeave"/>
                 </StackPanel>
@@ -58,17 +74,17 @@
             <Grid Margin="0,35,0,0">
                 <DockPanel>
                     <!-- Sidebar -->
-                    <Border DockPanel.Dock="Left" Width="250" Background="#252526">
+                    <Border DockPanel.Dock="Left" Width="250" Background="{StaticResource TitleBarBrush}">
                         <view:SidebarView />
                     </Border>
 
                     <!-- Terminal -->
-                    <DockPanel DockPanel.Dock="Bottom" Height="150" Background="#1B1B1B">
+                    <DockPanel DockPanel.Dock="Bottom" Height="150" Background="{StaticResource ContentSurfaceBrush}">
                         <view:TerminalView />
                     </DockPanel>
 
                     <!-- Main workspace -->
-                    <Grid Background="#1E1E1E">
+                    <Grid Background="{StaticResource ContentSurfaceBrush}">
                         <view:Visualer/>
                     </Grid>
                 </DockPanel>

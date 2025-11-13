@@ -25,8 +25,14 @@
       <PackageReference Include="Syncfusion.Shared.WPF" Version="31.2.5" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ViewModels\" />
-    </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Syntax\*.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

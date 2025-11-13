@@ -41,7 +41,7 @@ namespace EasyNote
 
         private void Close_MouseEnter(object sender, MouseEventArgs e)
         {
-            ((System.Windows.Controls.Button)sender).Background = new SolidColorBrush(Color.FromRgb(180, 0, 0));
+            ((System.Windows.Controls.Button)sender).Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EF4444"));
         }
 
         private void Close_MouseLeave(object sender, MouseEventArgs e)

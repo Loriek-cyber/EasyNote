@@ -9,25 +9,25 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
-                        <Border x:Name="border" 
-                                Background="Transparent" 
-                                BorderBrush="Transparent" 
+                        <Border x:Name="border"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
                                 Padding="8,6">
                             <TextBlock x:Name="text"
                                       Text="{TemplateBinding Content}"
                                       FontFamily="Consolas"
                                       FontSize="13pt"
                                       FontWeight="Bold"
-                                      Foreground="#4A5568"
+                                      Foreground="#64748B"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="text" Property="Foreground" Value="#A0AEC0"/>
+                                <Setter TargetName="text" Property="Foreground" Value="#38BDF8"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="text" Property="Foreground" Value="#CBD5E0"/>
+                                <Setter TargetName="text" Property="Foreground" Value="#E2E8F0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -35,32 +35,32 @@
             </Setter>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
-        
+
         <!-- ComboBox Style - Dark Theme -->
         <Style x:Key="CodeLanguageComboStyle" TargetType="ComboBox">
-            <Setter Property="Background" Value="#1A1D23"/>
-            <Setter Property="Foreground" Value="#A0AEC0"/>
-            <Setter Property="BorderBrush" Value="#2D3748"/>
+            <Setter Property="Background" Value="#111C3A"/>
+            <Setter Property="Foreground" Value="#E2E8F0"/>
+            <Setter Property="BorderBrush" Value="#1E293B"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="8,4"/>
             <Setter Property="FontFamily" Value="Consolas"/>
             <Setter Property="FontSize" Value="10pt"/>
         </Style>
     </UserControl.Resources>
-    
-    <Grid Background="#0D1117">
+
+    <Grid Background="#101A32">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- Editor -->
         <avalonEdit:TextEditor Grid.Column="0"
             x:Name="TextEditor"
             FontFamily="JetBrains Mono, Consolas, Courier New"
             FontSize="11pt"
-            Background="#0D1117"
-            Foreground="#E6EDF3"
+            Background="#101A32"
+            Foreground="#E2E8F0"
             ShowLineNumbers="False"
             Padding="16"
             HorizontalScrollBarVisibility="Hidden"
@@ -69,9 +69,9 @@
             />
         
         <!-- Mode Selector - Vertical on Right -->
-        <StackPanel Grid.Column="1" 
-                    Orientation="Vertical" 
-                    Background="#0D1117" 
+        <StackPanel Grid.Column="1"
+                    Orientation="Vertical"
+                    Background="#0B1120"
                     VerticalAlignment="Top"
                     Margin="0,1,8,0">
             <RadioButton x:Name="MarkdownMode" 
