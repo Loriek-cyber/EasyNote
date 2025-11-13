@@ -1,0 +1,102 @@
+﻿<?xml version="1.0"?>
+<SyntaxDefinition name="Markdown"
+                  extensions=".md"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+
+  <Color name="Default"          foreground="#D4D4D4" background="#000000" />
+  <Color name="Header"           foreground="#569CD6" fontWeight="bold" />
+  <Color name="Emphasis"         foreground="#CE9178" fontStyle="italic" />
+  <Color name="StrongEmphasis"   foreground="#CE9178" fontWeight="bold" />
+  <Color name="InlineCode"       foreground="#DCDCAA" background="#1E1E1E" />
+  <Color name="CodeBlock"        foreground="#DCDCAA" background="#1E1E1E" />
+  <Color name="Link"             foreground="#4FC1FF" />
+  <Color name="Image"            foreground="#4FC1FF" />
+  <Color name="Quote"            foreground="#6A9955" />
+  <Color name="ListBullet"       foreground="#C586C0" />
+  <Color name="HorizontalRule"   foreground="#808080" />
+  <Color name="EscapeChar"       foreground="#D7BA7D" />
+  <Color name="HtmlTag"          foreground="#569CD6" />
+
+  <RuleSet ignoreCase="false">
+
+    <!-- Headers: Match from # to end of line -->
+    <Span color="Header" multiline="false">
+      <Begin>^#{1,6}\s</Begin>
+      <End>$</End>
+    </Span>
+
+    <!-- Block quotes: Match line by line -->
+    <Span color="Quote" multiline="false">
+      <Begin>^\s*&gt;\s?</Begin>
+      <End>$</End>
+    </Span>
+
+    <!-- List bullets: Use Rule instead of Span -->
+    <Rule color="ListBullet">^\s*([-+*]|\d+\.)\s</Rule>
+
+    <!-- Horizontal rules -->
+    <Rule color="HorizontalRule">^\s*([-*_]\s*){3,}$</Rule>
+
+    <!-- Code blocks with triple backticks -->
+    <Span color="CodeBlock" ruleSet="CodeBlock" multiline="true">
+      <Begin>```</Begin>
+      <End>```</End>
+    </Span>
+
+    <!-- Inline code -->
+    <Span color="InlineCode" multiline="false">
+      <Begin>`</Begin>
+      <End>`</End>
+    </Span>
+
+    <!-- Strong emphasis with ** or __ -->
+    <Span color="StrongEmphasis" multiline="false">
+      <Begin>\*\*</Begin>
+      <End>\*\*</End>
+    </Span>
+    <Span color="StrongEmphasis" multiline="false">
+      <Begin>__</Begin>
+      <End>__</End>
+    </Span>
+
+    <!-- Emphasis with * or _ -->
+    <Span color="Emphasis" multiline="false">
+      <Begin>(?&lt;!\*)\*(?!\*)</Begin>
+      <End>(?&lt;!\*)\*(?!\*)</End>
+    </Span>
+    <Span color="Emphasis" multiline="false">
+      <Begin>(?&lt;!_)_(?!_)</Begin>
+      <End>(?&lt;!_)_(?!_)</End>
+    </Span>
+
+    <!-- Links [text](url) -->
+    <Span color="Link" multiline="false">
+      <Begin>\[</Begin>
+      <End>\)</End>
+    </Span>
+
+    <!-- Images ![alt](url) -->
+    <Span color="Image" multiline="false">
+      <Begin>!\[</Begin>
+      <End>\)</End>
+    </Span>
+
+    <!-- Escape sequences -->
+    <Span color="EscapeChar" multiline="false">
+      <Begin>\\</Begin>
+      <End>.</End>
+    </Span>
+
+    <!-- HTML tags -->
+    <Span color="HtmlTag" multiline="false">
+      <Begin>&lt;</Begin>
+      <End>&gt;</End>
+    </Span>
+
+  </RuleSet>
+
+  <RuleSet name="CodeBlock" ignoreCase="false">
+    <!-- Code blocks have no special highlighting -->
+  </RuleSet>
+
+</SyntaxDefinition>

@@ -24,7 +24,7 @@ namespace EasyNote.Services
             {
                 ActiveView = new ViewDocument
                 {
-                    OriginalText = "# New Document"
+                    OriginalText = "# New Document\n"
                 };
                 ActiveView.ToHtml();
             }

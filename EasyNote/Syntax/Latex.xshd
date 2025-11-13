@@ -1,0 +1,74 @@
+﻿<SyntaxDefinition name="LaTeX" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <!-- Colori per tema scuro: foreground chiaro su sfondo scuro -->
+  <Color name="Comment" foreground="Gray" />
+  <Color name="Keyword" foreground="Cyan" />
+  <Color name="String" foreground="Yellow" />
+  <Color name="Number" foreground="Magenta" />
+  <Color name="LaTeXCommand" foreground="White" fontWeight="bold" />
+  <Color name="LaTeXEnv" foreground="Green" />
+  <Color name="MathMode" foreground="Orange" />
+  <Color name="Bracket" foreground="Red" />
+
+  <!-- Regole principali -->
+  <RuleSet>
+    <!-- Commenti % -->
+    <Span color="Comment" begin="%" end="\n" stopAtEol="true" />
+
+    <!-- Comandi LaTeX \comando{argomenti} -->
+    <Span color="LaTeXCommand" begin="\\" end="{| |}" multiline="true">
+      <Begin> \\ [a-zA-Z]+ </Begin>
+      <End> \{ | \} </End>
+      <RuleSet>
+        <!-- Argomenti interni -->
+        <Span color="String" begin="\{|\[" end="\}|\]" multiline="true" />
+      </RuleSet>
+    </Span>
+
+    <!-- Ambienti LaTeX \begin{env} ... \end{env} -->
+    <Span color="LaTeXEnv" begin="\\begin\{[a-zA-Z]+}" end="\\end\{[a-zA-Z]+}" multiline="true">
+      <RuleSet>
+        <!-- Contenuto interno dell'ambiente -->
+        <Import ruleSet="LaTeXInner" />
+      </RuleSet>
+    </Span>
+
+    <!-- Matematica inline $...$ -->
+    <Span color="MathMode" begin="$" end="$" multiline="false" />
+    <!-- Matematica display $$...$$ o \[...\] -->
+    <Span color="MathMode" begin="\$\$|\[" end="\$\$|\]" multiline="true" />
+
+    <!-- Parentesi graffe e brackets -->
+    <Rule color="Bracket"> \{ | \} | \[ | \] | \( | \) </Rule>
+
+    <!-- Importa regole interne per comandi e testo -->
+    <Import ruleSet="LaTeXInner" />
+  </RuleSet>
+
+  <!-- Regole per contenuto interno LaTeX -->
+  <RuleSet name="LaTeXInner">
+    <!-- Comandi nested \comando -->
+    <Span color="LaTeXCommand" begin="\\" end="{| |}" multiline="true">
+      <Begin> \\ [a-zA-Z]+ </Begin>
+      <End> \{ | \} </End>
+    </Span>
+    <!-- Commenti all'interno -->
+    <Span color="Comment" begin="%" end="\n" stopAtEol="true" />
+    <!-- Stringhe e testo -->
+    <Rule color="String"> " [^"]* " </Rule>
+    <!-- Numeri -->
+    <Rule color="Number"> \b \d+ (\.\d+)? \b </Rule>
+    <!-- Keyword LaTeX comuni come \documentclass, \usepackage -->
+    <Keywords color="Keyword">
+      <Word>documentclass</Word>
+      <Word>usepackage</Word>
+      <Word>begin</Word>
+      <Word>end</Word>
+      <Word>item</Word>
+      <Word>section</Word>
+      <Word>subsection</Word>
+      <Word>title</Word>
+      <Word>author</Word>
+      <Word>document</Word>
+    </Keywords>
+  </RuleSet>
+</SyntaxDefinition>
