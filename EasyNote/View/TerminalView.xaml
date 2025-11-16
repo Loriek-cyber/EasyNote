@@ -65,7 +65,7 @@
             Padding="16"
             HorizontalScrollBarVisibility="Hidden"
             VerticalScrollBarVisibility="Hidden"
-            KeyDown="TextEditor_OnKeyDown"
+            PreviewKeyDown="TextEditor_OnPreviewKeyDown"
             />
         
         <!-- Mode Selector - Vertical on Right -->

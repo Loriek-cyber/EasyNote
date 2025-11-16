@@ -19,16 +19,7 @@ namespace EasyNote.Services
             if (webView is null) throw new ArgumentNullException(nameof(webView));
 
             WebView = webView;
-
-            if (ActiveView == null)
-            {
-                ActiveView = new ViewDocument
-                {
-                    OriginalText = "# New Document\n"
-                };
-                ActiveView.ToHtml();
-            }
-
+            ActiveView = new ViewDocument();
             await EnsureReadyAsync();
             await NavigateToStringAsync(ActiveView.Html);
         }

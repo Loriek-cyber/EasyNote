@@ -48,3 +48,13 @@ C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syn
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syncfusion.Shared.WPF.dll
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syncfusion.Tools.WPF.dll
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\System.Reflection.MetadataLoadContext.dll
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\Cpp.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\Java.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\JavaScript.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\JSON.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\Latex.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\PHP.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\PowerShell.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\Python.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\SQL.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\TypeScript.xshd
