@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -22,6 +22,7 @@ namespace EasyNote.Services
             ActiveView = new ViewDocument();
             await EnsureReadyAsync();
             await NavigateToStringAsync(ActiveView.Html);
+            await UpdateContentAsync(ActiveView.Html);
         }
 
         public static async Task UpdateContentAsync(string newMarkdown)
@@ -33,7 +34,6 @@ namespace EasyNote.Services
 
             ActiveView.OriginalText = newMarkdown ?? string.Empty;
             ActiveView.ToHtml();
-
             await EnsureReadyAsync();
             await NavigateToStringAsync(ActiveView.Html);
         }
@@ -97,7 +97,7 @@ namespace EasyNote.Services
                 throw new InvalidOperationException("VisualerService not initialized. Call InitAsync(WebView2) first.");
         }
 
-        // FIX: Gestione corretta dei Task async
+        
         private static async Task OnUiAsync(Func<Task> action)
         {
             if (WebView.Dispatcher.CheckAccess())

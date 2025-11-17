@@ -4,9 +4,8 @@ using System.Windows.Input;
 using EasyNote.Services;
 
 namespace EasyNote.View
-
 {
-    public partial class TerminalView 
+    public partial class TerminalView // Non hai specificato, ma assumo sia UserControl o Window
     {
         public enum EditorMode
         {
@@ -17,13 +16,13 @@ namespace EasyNote.View
 
         private EditorMode _currentMode = EditorMode.Markdown;
         private string _selectedLanguage = "C#";
-        
+
         // Available programming languages for code mode
         private readonly List<string> _codeLanguages =
         [
             "C#", "JavaScript", "Python", "C++", "Java",
             "XML", "HTML", "CSS", "SQL", "PowerShell",
-            "PHP", "TypeScript", "JSON" // Removed Ruby
+            "PHP", "TypeScript", "JSON"
         ];
 
         private readonly bool _isInitialized;
@@ -37,7 +36,6 @@ namespace EasyNote.View
 
         private void InitializeEditor()
         {
-            
             // Set editor options for terminal-like experience
             TextEditor.Options.ShowSpaces = false;
             TextEditor.Options.ShowTabs = false;
@@ -46,20 +44,20 @@ namespace EasyNote.View
             TextEditor.Options.IndentationSize = 4;
             TextEditor.Options.EnableHyperlinks = false;
             TextEditor.Options.EnableEmailHyperlinks = false;
-            TextEditor.CommandBindings.Clear();
-            
+            TextEditor.CommandBindings.Clear(); // Attenzione: questo rimuove anche Ctrl+C, Ctrl+V, Undo/Redo. Sei sicuro?
+
             // Remove scrollbars
             TextEditor.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             TextEditor.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+
             // Populate language selector
             LanguageSelector.ItemsSource = _codeLanguages;
             LanguageSelector.SelectedIndex = 0;
-
             
+            // Impostazioni iniziali UI
+            LanguageSelector.Visibility = Visibility.Collapsed;
+            TextEditor.ShowLineNumbers = false;
         }
-
-        
-        
 
         private void OnModeChanged(object sender, RoutedEventArgs e)
         {
@@ -70,27 +68,43 @@ namespace EasyNote.View
             {
                 _currentMode = EditorMode.Markdown;
                 LanguageSelector.Visibility = Visibility.Collapsed;
+                TextEditor.ShowLineNumbers = false; // CORREZIONE: Nascondi i numeri di riga
             }
             else if (Equals(sender, LatexMode))
             {
                 _currentMode = EditorMode.Latex;
                 LanguageSelector.Visibility = Visibility.Collapsed;
+                TextEditor.ShowLineNumbers = false; // CORREZIONE: Nascondi i numeri di riga
             }
             else if (Equals(sender, CodeMode))
             {
                 _currentMode = EditorMode.Code;
                 LanguageSelector.Visibility = Visibility.Visible;
+                TextEditor.ShowLineNumbers = true; // CORREZIONE: Mostra i numeri di riga
             }
-            
-            
         }
 
         private void ChangeMode(EditorMode mode)
         {
+            // Questa logica presuppone che tu voglia inviare il testo corrente
+            // *prima* di cambiare modalità. Se non è così, commenta SendData().
+            SendData();
+
+            // Impostando IsChecked = true, si scatenerà l'evento OnModeChanged
+            // che aggiornerà l'interfaccia (numeri di riga, visibilità ComboBox)
             if (mode == EditorMode.Markdown)
             {
-                SendData();
                 MarkdownMode.IsChecked = true;
+            }
+            else if (mode == EditorMode.Latex)
+            {
+                LatexMode.IsChecked = true;
+            }
+            else if (mode == EditorMode.Code)
+            {
+                CodeMode.IsChecked = true;
+                // Non serve più: TextEditor.ShowLineNumbers = true;
+                // Verrà gestito dall'evento OnModeChanged
             }
         }
 
@@ -102,87 +116,95 @@ namespace EasyNote.View
             }
         }
 
-        
-        
-        
         private void TextEditor_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                e.Handled = true; // we handle all Ctrl shortcuts
+                e.Handled = true; // Gestiamo noi tutti gli shortcut Ctrl
                 //TODO: Adding to the start a variable Key, so that i can change everything
                 switch (e.Key)
                 {
                     case Key.Enter:
                         SendData();
                         break;
-
-                    case Key.B:
-                        // ****  → caret nel mezzo
+                    case Key.B: // Bold
                         InsertText("****", 2);
                         break;
-
-                    case Key.I:
-                        // ** → caret nel mezzo
+                    case Key.I: // Italic
                         InsertText("**", 1);
                         break;
-
-                    case Key.E:
-                        // $$ → caret in the middle
+                    case Key.E: // (E)quation?
                         InsertText("$$", 1);
                         break;
-                    case Key.K:
-                        
-                        
+                    case Key.K: // (K)ode
+                        ChangeMode(EditorMode.Code);
                         break;
-                    case Key.M:
+                    case Key.M: // (M)arkdown
                         ChangeMode(EditorMode.Markdown);
                         break;
-                    case Key.D1:
-                        InsertText("# ",2);
+                    case Key.D1: // Header 1
+                        InsertText("# ", 2);
                         break;
-                    case Key.D2:
-                        InsertText("## ",3);
+                    case Key.D2: // Header 2
+                        InsertText("## ", 3);
                         break;
-                    
                 }
             }
-            else if (Keyboard.Modifiers == ModifierKeys.Alt)
-            {
-                
-            }
-
-            
         }
 
         private void InsertText(string text, int offset)
         {
-            int caret = TextEditor.CaretOffset;
-
+            var caret = TextEditor.CaretOffset;
             TextEditor.Document.Insert(caret, text);
-
-            // place caret inside the markers
             TextEditor.CaretOffset = caret + offset;
         }
 
-        
-        
-        
-        
-        // Public methods for external access
+        // CORREZIONE: Aggiornato il commento, questi metodi sono privati.
+        // Metodi privati per l'accesso interno allo stato dell'editor
         private EditorMode CurrentMode => _currentMode;
-        private string CurrentLanguage => _selectedLanguage;
+        private string CurrentLanguage => _selectedLanguage; // Usato in SendData
         private string GetText() => TextEditor.Text;
         private void SetText(string text) => TextEditor.Text = text;
         private void Clear() => TextEditor.Clear();
 
-        private void SendData()
+        private async void SendData()
         {
-            _= VisualerService.UpdateContentAsync(VisualerService.ActiveView.OriginalText + " " +GetText());
-            Clear();
+            try
+            {
+                string original = VisualerService.ActiveView.OriginalText;
+                string text = GetText();
+
+                // Non inviare se il testo è vuoto
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    return;
+                }
+
+                if (CurrentMode == EditorMode.Code)
+                {
+                    // ==========================================================
+                    // ECCO LA CORREZIONE PRINCIPALE
+                    // Devi usare la variabile '_selectedLanguage' (la stringa del linguaggio)
+                    // e NON '_codeLanguages' (l'intera lista).
+                    // ==========================================================
+                    string formatted =
+                        $"{original}\n```{_selectedLanguage}\n{text}\n```";
+
+                    await VisualerService.UpdateContentAsync(formatted);
+                }
+                else
+                {
+                    string formatted = $"{original} {text}";
+                    await VisualerService.UpdateContentAsync(formatted);
+                }
+
+                Clear(); // Svuota l'editor dopo l'invio
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                // Potrebbe essere utile mostrare un errore all'utente qui
+            }
         }
-
-
-        
     }
 }
