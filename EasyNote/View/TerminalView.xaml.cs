@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using EasyNote.Services;
+using EasyNote.Syntax;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
 namespace EasyNote.View
 {
@@ -11,7 +13,8 @@ namespace EasyNote.View
         {
             Markdown,
             Latex,
-            Code
+            Code,
+            AImode
         }
 
         private EditorMode _currentMode = EditorMode.Markdown;
@@ -68,6 +71,7 @@ namespace EasyNote.View
             {
                 _currentMode = EditorMode.Markdown;
                 LanguageSelector.Visibility = Visibility.Collapsed;
+                TextEditor.SyntaxHighlighting = SyntaxHelper.Markdown;
                 TextEditor.ShowLineNumbers = false; // CORREZIONE: Nascondi i numeri di riga
             }
             else if (Equals(sender, LatexMode))
@@ -75,21 +79,26 @@ namespace EasyNote.View
                 _currentMode = EditorMode.Latex;
                 LanguageSelector.Visibility = Visibility.Collapsed;
                 TextEditor.ShowLineNumbers = false; // CORREZIONE: Nascondi i numeri di riga
+                TextEditor.SyntaxHighlighting = SyntaxHelper.Latex;
             }
             else if (Equals(sender, CodeMode))
             {
                 _currentMode = EditorMode.Code;
-                LanguageSelector.Visibility = Visibility.Visible;
-                TextEditor.ShowLineNumbers = true; // CORREZIONE: Mostra i numeri di riga
+                //for now this is on pause
+                //LanguageSelector.Visibility = Visibility.Visible;
+                TextEditor.ShowLineNumbers = true;
+                TextEditor.SyntaxHighlighting = SyntaxHelper.Python;
+            }
+            else if (Equals(sender, EditorMode.AImode))
+            {
+                _currentMode = EditorMode.AImode;
+                LanguageSelector.Visibility = Visibility.Collapsed;
+                TextEditor.ShowLineNumbers = false;
             }
         }
 
         private void ChangeMode(EditorMode mode)
         {
-            // Questa logica presuppone che tu voglia inviare il testo corrente
-            // *prima* di cambiare modalità. Se non è così, commenta SendData().
-            SendData();
-
             // Impostando IsChecked = true, si scatenerà l'evento OnModeChanged
             // che aggiornerà l'interfaccia (numeri di riga, visibilità ComboBox)
             if (mode == EditorMode.Markdown)
@@ -142,6 +151,9 @@ namespace EasyNote.View
                     case Key.M: // (M)arkdown
                         ChangeMode(EditorMode.Markdown);
                         break;
+                    case Key.L:
+                        ChangeMode(EditorMode.Latex);
+                        break;
                     case Key.D1: // Header 1
                         InsertText("# ", 2);
                         break;
@@ -173,8 +185,7 @@ namespace EasyNote.View
             {
                 string original = VisualerService.ActiveView.OriginalText;
                 string text = GetText();
-
-                // Non inviare se il testo è vuoto
+                
                 if (string.IsNullOrWhiteSpace(text))
                 {
                     return;
@@ -182,13 +193,8 @@ namespace EasyNote.View
 
                 if (CurrentMode == EditorMode.Code)
                 {
-                    // ==========================================================
-                    // ECCO LA CORREZIONE PRINCIPALE
-                    // Devi usare la variabile '_selectedLanguage' (la stringa del linguaggio)
-                    // e NON '_codeLanguages' (l'intera lista).
-                    // ==========================================================
                     string formatted =
-                        $"{original}\n```{_selectedLanguage}\n{text}\n```";
+                        $"{original}\n```{_selectedLanguage}\n{text}\n```\n";
 
                     await VisualerService.UpdateContentAsync(formatted);
                 }
@@ -198,12 +204,11 @@ namespace EasyNote.View
                     await VisualerService.UpdateContentAsync(formatted);
                 }
 
-                Clear(); // Svuota l'editor dopo l'invio
+                Clear(); 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                // Potrebbe essere utile mostrare un errore all'utente qui
             }
         }
     }

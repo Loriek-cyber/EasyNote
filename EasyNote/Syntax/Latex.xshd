@@ -1,74 +1,73 @@
-﻿<SyntaxDefinition name="LaTeX" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
-  <!-- Colori per tema scuro: foreground chiaro su sfondo scuro -->
-  <Color name="Comment" foreground="Gray" />
-  <Color name="Keyword" foreground="Cyan" />
-  <Color name="String" foreground="Yellow" />
-  <Color name="Number" foreground="Magenta" />
-  <Color name="LaTeXCommand" foreground="White" fontWeight="bold" />
-  <Color name="LaTeXEnv" foreground="Green" />
-  <Color name="MathMode" foreground="Orange" />
-  <Color name="Bracket" foreground="Red" />
+﻿<?xml version="1.0"?>
+<SyntaxDefinition name="LaTeX" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
 
-  <!-- Regole principali -->
-  <RuleSet>
-    <!-- Commenti % -->
-    <Span color="Comment" begin="%" end="\n" stopAtEol="true" />
+    <Color name="Comment" foreground="#6A9955" exampleText="% commento" />
 
-    <!-- Comandi LaTeX \comando{argomenti} -->
-    <Span color="LaTeXCommand" begin="\\" end="{| |}" multiline="true">
-      <Begin> \\ [a-zA-Z]+ </Begin>
-      <End> \{ | \} </End>
-      <RuleSet>
-        <!-- Argomenti interni -->
-        <Span color="String" begin="\{|\[" end="\}|\]" multiline="true" />
-      </RuleSet>
-    </Span>
+    <Color name="Command" foreground="#4EC9B0" fontWeight="bold" exampleText="\documentclass" />
 
-    <!-- Ambienti LaTeX \begin{env} ... \end{env} -->
-    <Span color="LaTeXEnv" begin="\\begin\{[a-zA-Z]+}" end="\\end\{[a-zA-Z]+}" multiline="true">
-      <RuleSet>
-        <!-- Contenuto interno dell'ambiente -->
-        <Import ruleSet="LaTeXInner" />
-      </RuleSet>
-    </Span>
+    <Color name="Keyword" foreground="#C586C0" fontWeight="bold" exampleText="\begin" />
 
-    <!-- Matematica inline $...$ -->
-    <Span color="MathMode" begin="$" end="$" multiline="false" />
-    <!-- Matematica display $$...$$ o \[...\] -->
-    <Span color="MathMode" begin="\$\$|\[" end="\$\$|\]" multiline="true" />
+    <Color name="Bracket" foreground="#FFD700" exampleText="{ }" />
 
-    <!-- Parentesi graffe e brackets -->
-    <Rule color="Bracket"> \{ | \} | \[ | \] | \( | \) </Rule>
+    <Color name="MathMode" foreground="#CE9178" exampleText="$x^2$" />
 
-    <!-- Importa regole interne per comandi e testo -->
-    <Import ruleSet="LaTeXInner" />
-  </RuleSet>
+    <Color name="Number" foreground="#B5CEA8" exampleText="3.14" />
 
-  <!-- Regole per contenuto interno LaTeX -->
-  <RuleSet name="LaTeXInner">
-    <!-- Comandi nested \comando -->
-    <Span color="LaTeXCommand" begin="\\" end="{| |}" multiline="true">
-      <Begin> \\ [a-zA-Z]+ </Begin>
-      <End> \{ | \} </End>
-    </Span>
-    <!-- Commenti all'interno -->
-    <Span color="Comment" begin="%" end="\n" stopAtEol="true" />
-    <!-- Stringhe e testo -->
-    <Rule color="String"> " [^"]* " </Rule>
-    <!-- Numeri -->
-    <Rule color="Number"> \b \d+ (\.\d+)? \b </Rule>
-    <!-- Keyword LaTeX comuni come \documentclass, \usepackage -->
-    <Keywords color="Keyword">
-      <Word>documentclass</Word>
-      <Word>usepackage</Word>
-      <Word>begin</Word>
-      <Word>end</Word>
-      <Word>item</Word>
-      <Word>section</Word>
-      <Word>subsection</Word>
-      <Word>title</Word>
-      <Word>author</Word>
-      <Word>document</Word>
-    </Keywords>
-  </RuleSet>
+    <Color name="Escaped" foreground="#DCDCDC" exampleText="\\" />
+
+    <RuleSet>
+
+        <!-- Commenti -->
+        <Span color="Comment" begin="%" />
+
+        <!-- Ambiente verbatim -->
+        <Span color="Number" multiline="true">
+            <Begin>\\begin\{verbatim\}</Begin>
+            <End>\\end\{verbatim\}</End>
+        </Span>
+
+        <!-- Modalità matematica display -->
+        <Span color="MathMode" multiline="true">
+            <Begin>\$\$</Begin>
+            <End>\$\$</End>
+        </Span>
+
+        <Span color="MathMode" multiline="true">
+            <Begin>\\\[</Begin>
+            <End>\\\]</End>
+        </Span>
+
+        <!-- Modalità matematica inline -->
+        <Span color="MathMode" multiline="false">
+            <Begin>\$</Begin>
+            <End>\$</End>
+        </Span>
+
+        <!-- Comandi keyword principali -->
+        <Rule color="Keyword">
+            \\(begin|end|documentclass|usepackage|part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\b
+        </Rule>
+
+        <!-- Altri comandi LaTeX -->
+        <Rule color="Command">
+            \\[a-zA-Z@]+
+        </Rule>
+
+        <!-- Parentesi e bracket -->
+        <Rule color="Bracket">
+            [\{\}\[\]\(\)]
+        </Rule>
+
+        <!-- Numeri -->
+        <Rule color="Number">
+            \b\d+(\.\d+)?\b
+        </Rule>
+
+        <!-- Caratteri escapati -->
+        <Rule color="Escaped">
+            \\[^a-zA-Z@]
+        </Rule>
+
+    </RuleSet>
+
 </SyntaxDefinition>

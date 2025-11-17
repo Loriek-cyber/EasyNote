@@ -27,12 +27,67 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\" />
+    <Folder Include="WebScript\highlight\" />
+    <Folder Include="WebScript\mathjax\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Syntax\*.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="WebScript\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Markdown.xshd" />
+    <Content Include="Syntax\Markdown.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="WebScript\latex.js" />
+    <None Remove="Syntax\Cpp.xshd" />
+    <Content Include="Syntax\Cpp.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Java.xshd" />
+    <Content Include="Syntax\Java.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\JavaScript.xshd" />
+    <Content Include="Syntax\JavaScript.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\JSON.xshd" />
+    <Content Include="Syntax\JSON.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Latex.xshd" />
+    <Content Include="Syntax\Latex.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\PHP.xshd" />
+    <Content Include="Syntax\PHP.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\PowerShell.xshd" />
+    <Content Include="Syntax\PowerShell.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Python.xshd" />
+    <Content Include="Syntax\Python.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\SQL.xshd" />
+    <Content Include="Syntax\SQL.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\TypeScript.xshd" />
+    <Content Include="Syntax\TypeScript.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="WebScript\hightlight.js" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Markdown" extensions=".md">
+
+    <Color name="Comment" foreground="#6A9955" fontStyle="italic"/>
+    <Color name="CodeBlock" foreground="#CE9178" background="#252535"/>
+    <Color name="InlineCode" foreground="#CE9178" background="#252535"/>
+    <Color name="HTMLTag" foreground="#569CD6"/>
+    <Color name="BoldText" fontWeight="bold"/>
+    <Color name="ItalicText" fontStyle="italic"/>
+    <Color name="BoldItalic" fontWeight="bold" fontStyle="italic"/>
+    <Color name="Strikethrough" foreground="#808080"/>
+    <Color name="Link" foreground="#4EC9B0"/>
+    <Color name="Image" foreground="#4FC1FF"/>
+    <Color name="Reference" foreground="#C586C0"/>
+    <Color name="BlockQuote" foreground="#6A9955" fontStyle="italic"/>
+    <Color name="Heading" foreground="#4EC9B0" fontWeight="bold"/>
+    <Color name="HeadingLight" foreground="#4EC9B0"/>
+    <Color name="HorizontalRule" foreground="#858585"/>
+    <Color name="CodeDelimiter" foreground="#808080"/>
+    <Color name="Digits" foreground="#B5CEA8"/>
+
+    <Property name="LineComment" value=""/>
+
+    <RuleSets>
+        <RuleSet ignorecase="false">
+
+            <Delimiters>&amp;&lt;&gt;~!@%^*()-+=|\#/{}[]:;"' ,.?</Delimiters>
+
+            <!-- Code Blocks (must come before headings) -->
+            <Span color="CodeBlock" ruleSet="CodeContent">
+                <Begin color="CodeDelimiter">```</Begin>
+                <End color="CodeDelimiter">```</End>
+            </Span>
+
+            <Span color="CodeBlock" ruleSet="CodeContent">
+                <Begin color="CodeDelimiter">~~~</Begin>
+                <End color="CodeDelimiter">~~~</End>
+            </Span>
+
+            <!-- Inline Code -->
+            <Span color="InlineCode">
+                <Begin color="CodeDelimiter">`</Begin>
+                <End color="CodeDelimiter">`</End>
+            </Span>
+
+            <!-- HTML Comment -->
+            <Span color="Comment">
+                <Begin>&lt;!--</Begin>
+                <End>--&gt;</End>
+            </Span>
+
+            <!-- HTML/XML Tags -->
+            <Span color="HTMLTag">
+                <Begin>&lt;</Begin>
+                <End>&gt;</End>
+            </Span>
+
+            <!-- Bold and Italic Combined ***text*** -->
+            <Span color="BoldItalic">
+                <Begin>***</Begin>
+                <End>***</End>
+            </Span>
+
+            <!-- Bold (**text** or __text__) -->
+            <Span color="BoldText">
+                <Begin>**</Begin>
+                <End>**</End>
+            </Span>
+
+            <Span color="BoldText">
+                <Begin>__</Begin>
+                <End>__</End>
+            </Span>
+
+            <!-- Italic (*text* or _text_) -->
+            <Span color="ItalicText">
+                <Begin>*</Begin>
+                <End>*</End>
+            </Span>
+
+            <Span color="ItalicText">
+                <Begin>_</Begin>
+                <End>_</End>
+            </Span>
+
+            <!-- Strikethrough -->
+            <Span color="Strikethrough">
+                <Begin>~~</Begin>
+                <End>~~</End>
+            </Span>
+
+            <!-- Links [text](url) -->
+            <Span color="Link">
+                <Begin>[</Begin>
+                <End>)</End>
+            </Span>
+
+            <!-- Images ![alt](url) -->
+            <Span color="Image">
+                <Begin>![</Begin>
+                <End>)</End>
+            </Span>
+
+            <!-- Reference style links -->
+            <Span color="Reference" stopateol="true">
+                <Begin>[</Begin>
+                <End>]:</End>
+            </Span>
+
+            <!-- Footnotes -->
+            <Span color="Reference">
+                <Begin>[^</Begin>
+                <End>]</End>
+            </Span>
+
+            <!-- Block Quote -->
+            <Span color="BlockQuote" stopateol="true">
+                <Begin>&gt;</Begin>
+            </Span>
+
+            <!-- Headings -->
+            <Span color="Heading" stopateol="true">
+                <Begin># </Begin>
+            </Span>
+
+            <Span color="Heading" stopateol="true">
+                <Begin>## </Begin>
+            </Span>
+
+            <Span color="Heading" stopateol="true">
+                <Begin>### </Begin>
+            </Span>
+
+            <Span color="HeadingLight" stopateol="true">
+                <Begin>#### </Begin>
+            </Span>
+
+            <Span color="HeadingLight" stopateol="true">
+                <Begin>##### </Begin>
+            </Span>
+
+            <Span color="HeadingLight" stopateol="true">
+                <Begin>###### </Begin>
+            </Span>
+
+            <!-- Horizontal Rules -->
+            <Span color="HorizontalRule" stopateol="true">
+                <Begin>---</Begin>
+            </Span>
+
+            <!-- Task Lists -->
+            <Keywords color="Link">
+                <Word>- [x]</Word>
+                <Word>- [ ]</Word>
+                <Word>* [x]</Word>
+                <Word>* [ ]</Word>
+            </Keywords>
+
+        </RuleSet>
+
+        <RuleSet name="CodeContent" ignorecase="false">
+            <Delimiters>&amp;&lt;&gt;~!@%^*()-+=|\#/{}[]:;"' ,.?</Delimiters>
+            <!-- Code blocks have minimal highlighting -->
+        </RuleSet>
+
+    </RuleSets>
+</SyntaxDefinition>
