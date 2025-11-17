@@ -58,3 +58,4 @@ C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syn
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\Python.xshd
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\SQL.xshd
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\TypeScript.xshd
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\Syntax\Markdown.xshd

@@ -184,7 +184,7 @@ namespace EasyNote.View
             try
             {
                 string original = VisualerService.ActiveView.OriginalText;
-                string text = GetText();
+                string text = "\n"+GetText();
                 
                 if (string.IsNullOrWhiteSpace(text))
                 {

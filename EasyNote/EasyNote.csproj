@@ -42,7 +42,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Remove="Syntax\Markdown.xshd" />
-    <Content Include="Syntax\Markdown.xshd" />
+    <Content Include="Syntax\Markdown.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
