@@ -21,11 +21,14 @@
       <PackageReference Include="LiteDB" Version="6.0.0-prerelease.73" />
       <PackageReference Include="Markdig" Version="0.43.0" />
       <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
+      <PackageReference Include="SQLite" Version="3.13.0" />
       <PackageReference Include="Syncfusion.Edit.WPF" Version="31.2.5" />
       <PackageReference Include="Syncfusion.Shared.WPF" Version="31.2.5" />
+      <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
     </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Database\" />
     <Folder Include="ViewModels\" />
     <Folder Include="WebScript\highlight\" />
     <Folder Include="WebScript\mathjax\" />

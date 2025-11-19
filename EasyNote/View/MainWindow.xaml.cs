@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using EasyNote.Services;
 
 namespace EasyNote
 {
@@ -33,6 +34,7 @@ namespace EasyNote
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            VisualerService.SaveDocument();
             Close();
         }
 

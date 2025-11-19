@@ -8,53 +8,80 @@ namespace EasyNote.Services
 {
     public static class VisualerService
     {
-        public static WebView2 WebView { get; private set; }
-        public static ViewDocument ActiveView { get; private set; }
+        private static WebView2? WebView { get; set; }
+        public static Document? Now { get; set; }
+        private static bool IsInitialized => WebView?.CoreWebView2 != null;
+        
+        
+        
+        //code section to add to the update:
+        //serve a fare un update
+        public static async Task SaveDocument()
+        {
+            Console.WriteLine("[Save Document] Starting...\n");
+            DocumentDAO dc = new DocumentDAO();
+            if (Now != null) dc.Update(Now);
+            Console.WriteLine("[Save Document] End...\n");
+        }
 
-        public static bool IsInitialized => WebView?.CoreWebView2 != null;
-
+        public static async Task AddToDocument(string content)
+        {
+            Now.Content += "\n"+content;
+            await UpdateContentAsync();
+        }
+        
+        
+        
         // Call this once from the control that contains the WebView2
         public static async Task InitAsync(WebView2 webView)
         {
-            if (webView is null) throw new ArgumentNullException(nameof(webView));
-
-            WebView = webView;
-            ActiveView = new ViewDocument();
+            WebView = webView ?? throw new ArgumentNullException(nameof(webView));
             await EnsureReadyAsync();
-            await NavigateToStringAsync(ActiveView.Html);
-            await UpdateContentAsync(ActiveView.Html);
+            
+            await NavigateToStringAsync(MarkdownService.RenderMarkdownLatex(Now?.Markdown()));
+            
+            //going to remove this double call and integrate the document
+            //await UpdateContentAsync(ActiveView.Html);
         }
 
-        public static async Task UpdateContentAsync(string newMarkdown)
+        public static async Task UpdateContentAsync()
         {
             EnsureServiceCreated();
 
-            if (ActiveView == null)
-                ActiveView = new ViewDocument();
-
-            ActiveView.OriginalText = newMarkdown ?? string.Empty;
-            ActiveView.ToHtml();
+            if (Now == null)
+            {
+                Now = new Document();
+            } ;
+            
             await EnsureReadyAsync();
-            await NavigateToStringAsync(ActiveView.Html);
+            await NavigateToStringAsync(MarkdownService.RenderMarkdownLatex(Now?.Markdown()));
+            
+            //TODO: Capire se il salvataggio va bene qui
+            /*
+             * DocumentDAO dc = new DocumentDAO();
+             * dc.Update(Now);
+             */
         }
 
         public static async Task RefreshContentAsync()
         {
             EnsureServiceCreated();
-
-            if (ActiveView == null) return;
-
-            ActiveView.ToHtml();
+            if (Now == null) return;
             await EnsureReadyAsync();
-            await NavigateToStringAsync(ActiveView.Html);
+            await NavigateToStringAsync(MarkdownService.RenderMarkdownLatex(Now?.Markdown()));
         }
 
+        // ----------------- public API -----------------
+        /*
+         * Questi sono dei servizi deprecabili ma che non rimuovero
+         */
+        
         public static async Task NavigateAsync(string url)
         {
             EnsureServiceCreated();
             await OnUiAsync(() => WebView.Source = new Uri(url));
         }
-
+        
         public static Task ExecuteScriptAsync(string js)
         {
             EnsureServiceCreated();
@@ -86,7 +113,7 @@ namespace EasyNote.Services
             }
         }
 
-        private static Task NavigateToStringAsync(string html)
+        private static Task NavigateToStringAsync(string? html)
         {
             return OnUiAsync(() => WebView.NavigateToString(html ?? string.Empty));
         }

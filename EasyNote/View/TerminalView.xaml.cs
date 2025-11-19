@@ -3,12 +3,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using EasyNote.Services;
 using EasyNote.Syntax;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
 namespace EasyNote.View
 {
     public partial class TerminalView // Non hai specificato, ma assumo sia UserControl o Window
     {
+        
+        
         public enum EditorMode
         {
             Markdown,
@@ -60,6 +61,7 @@ namespace EasyNote.View
             // Impostazioni iniziali UI
             LanguageSelector.Visibility = Visibility.Collapsed;
             TextEditor.ShowLineNumbers = false;
+            TextEditor.SyntaxHighlighting = SyntaxHelper.Markdown;
         }
 
         private void OnModeChanged(object sender, RoutedEventArgs e)
@@ -129,36 +131,44 @@ namespace EasyNote.View
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                e.Handled = true; // Gestiamo noi tutti gli shortcut Ctrl
                 //TODO: Adding to the start a variable Key, so that i can change everything
                 switch (e.Key)
                 {
                     case Key.Enter:
                         SendData();
+                        e.Handled = true;
                         break;
                     case Key.B: // Bold
                         InsertText("****", 2);
+                        e.Handled = true;
                         break;
                     case Key.I: // Italic
                         InsertText("**", 1);
+                        e.Handled = true;
                         break;
                     case Key.E: // (E)quation?
                         InsertText("$$", 1);
+                        e.Handled = true;
                         break;
                     case Key.K: // (K)ode
                         ChangeMode(EditorMode.Code);
+                        e.Handled = true;
                         break;
                     case Key.M: // (M)arkdown
                         ChangeMode(EditorMode.Markdown);
+                        e.Handled = true;
                         break;
                     case Key.L:
                         ChangeMode(EditorMode.Latex);
+                        e.Handled = true;
                         break;
                     case Key.D1: // Header 1
                         InsertText("# ", 2);
+                        e.Handled = true;
                         break;
                     case Key.D2: // Header 2
                         InsertText("## ", 3);
+                        e.Handled = true;
                         break;
                 }
             }
@@ -179,36 +189,38 @@ namespace EasyNote.View
         private void SetText(string text) => TextEditor.Text = text;
         private void Clear() => TextEditor.Clear();
 
-        private async void SendData()
+        public async void SendData()
         {
             try
             {
-                string original = VisualerService.ActiveView.OriginalText;
-                string text = "\n"+GetText();
+                //Prendo il testo dal terminale
+                string text = GetText();
+                if (text == "" ) return; 
                 
-                if (string.IsNullOrWhiteSpace(text))
-                {
-                    return;
-                }
 
                 if (CurrentMode == EditorMode.Code)
                 {
                     string formatted =
-                        $"{original}\n```{_selectedLanguage}\n{text}\n```\n";
+                        $"```{_selectedLanguage}\n{text}\n```\n ";
 
-                    await VisualerService.UpdateContentAsync(formatted);
+                    await VisualerService.AddToDocument(formatted);
+                }
+                else if (CurrentMode == EditorMode.Latex)
+                {
+                    string formatted = $"${text}$";
+                    await VisualerService.AddToDocument(formatted);
                 }
                 else
                 {
-                    string formatted = $"{original} {text}";
-                    await VisualerService.UpdateContentAsync(formatted);
+                    string formatted = $"{text}";
+                    await VisualerService.AddToDocument(formatted);
                 }
 
                 Clear(); 
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("[SendData] Error: 1] " + e.Message + "Il messaggio è stato cancellato.");
             }
         }
     }

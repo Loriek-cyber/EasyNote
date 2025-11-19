@@ -60,6 +60,10 @@
               "target": "Package",
               "version": "[1.0.3595.46, )"
             },
+            "SQLite": {
+              "target": "Package",
+              "version": "[3.13.0, )"
+            },
             "Syncfusion.Edit.WPF": {
               "target": "Package",
               "version": "[31.2.5, )"
@@ -67,6 +71,10 @@
             "Syncfusion.Shared.WPF": {
               "target": "Package",
               "version": "[31.2.5, )"
+            },
+            "System.Data.SQLite.Core": {
+              "target": "Package",
+              "version": "[1.0.119, )"
             }
           },
           "imports": [

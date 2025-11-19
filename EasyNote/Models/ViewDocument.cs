@@ -13,6 +13,12 @@ public class ViewDocument
         Html = string.Empty;
     }
 
+    public void parse(Document doc)
+    {
+        OriginalText = "*"+doc.Title+"*\n"+doc.Content;
+        ToHtml();
+    }
+
     public void ToHtml()
     {
         // Validate input before processing
@@ -21,7 +27,8 @@ public class ViewDocument
             Html = MarkdownService.RenderMarkdownLatex("# Empty Document");
             return;
         }
-
+        
         Html = MarkdownService.RenderMarkdownLatex(OriginalText);
     }
+    
 }

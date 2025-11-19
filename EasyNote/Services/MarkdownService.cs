@@ -6,7 +6,7 @@ namespace EasyNote.Services;
 
 public class MarkdownService
 {
-    public static string RenderMarkdownLatex(string input)
+    public static string RenderMarkdownLatex(string? input)
     {
         // 1. Configure Markdig
         var pipeline = new MarkdownPipelineBuilder()
