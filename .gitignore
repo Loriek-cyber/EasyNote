@@ -192,4 +192,6 @@ bin
 obj
 
 .idea
+EasyNote/obj/
+EasyNote/bin/
 
