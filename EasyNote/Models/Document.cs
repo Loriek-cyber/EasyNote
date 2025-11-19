@@ -7,5 +7,17 @@
         public string Title { get; set; }
         public string Content { get; set; }      // Markdown o LaTeX// "Markdown" | "LaTeX"
         public DateTime LastModified { get; set; }
+        public string toString()
+        {
+            return string.Format("Title: {0}, Content: {1}", Title, Path);
+        }
+
+        public string Markdown()
+        {
+            return $@"_{Path}  : modificato: {LastModified.ToString()}_"+"\n"+
+                   $@"#{Title}"+"\n"+
+                   $@"{Content}"+"\n";
+        }
     }
+    
 }

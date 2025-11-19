@@ -21,18 +21,78 @@
       <PackageReference Include="LiteDB" Version="6.0.0-prerelease.73" />
       <PackageReference Include="Markdig" Version="0.43.0" />
       <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
+      <PackageReference Include="SQLite" Version="3.13.0" />
       <PackageReference Include="Syncfusion.Edit.WPF" Version="31.2.5" />
       <PackageReference Include="Syncfusion.Shared.WPF" Version="31.2.5" />
+      <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
     </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Database\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="WebScript\highlight\" />
+    <Folder Include="WebScript\mathjax\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Syntax\*.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="WebScript\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Markdown.xshd" />
+    <Content Include="Syntax\Markdown.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="WebScript\latex.js" />
+    <None Remove="Syntax\Cpp.xshd" />
+    <Content Include="Syntax\Cpp.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Java.xshd" />
+    <Content Include="Syntax\Java.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\JavaScript.xshd" />
+    <Content Include="Syntax\JavaScript.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\JSON.xshd" />
+    <Content Include="Syntax\JSON.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Latex.xshd" />
+    <Content Include="Syntax\Latex.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\PHP.xshd" />
+    <Content Include="Syntax\PHP.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\PowerShell.xshd" />
+    <Content Include="Syntax\PowerShell.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\Python.xshd" />
+    <Content Include="Syntax\Python.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\SQL.xshd" />
+    <Content Include="Syntax\SQL.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Syntax\TypeScript.xshd" />
+    <Content Include="Syntax\TypeScript.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="WebScript\hightlight.js" />
   </ItemGroup>
 
 </Project>

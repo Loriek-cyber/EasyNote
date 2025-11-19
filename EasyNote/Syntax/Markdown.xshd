@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Markdown" extensions=".md">
+
+    <Environment>
+        <Default color="#D4D4D4" bgcolor="#1E1E1E"/>
+        <Selection color="White" bgcolor="#264F78"/>
+        <LineNumbers color="#858585" bgcolor="#1E1E1E"/>
+        <CaretMarker color="#303030"/>
+        <VRuler color="#303030"/>
+        <FoldLine color="#A0A0A0" bgcolor="#1E1E1E"/>
+        <FoldMarker color="#858585" bgcolor="#1E1E1E"/>
+        <SelectedFoldLine color="White" bgcolor="#1E1E1E"/>
+        <EOLMarkers color="#303030"/>
+        <SpaceMarkers color="#303030"/>
+        <TabMarkers color="#303030"/>
+        <InvalidLines color="#303030"/>
+    </Environment>
+
+    <Properties>
+        <Property name="LineComment" value=""/>
+    </Properties>
+
+    <Digits name="Digits" color="#B5CEA8"/>
+
+    <RuleSets>
+        <RuleSet ignorecase="false">
+
+            <Delimiters>&amp;&lt;&gt;~!@%^*()-+=|\#/{}[]:;"' ,.?</Delimiters>
+
+            <Span name="CodeBlock1" color="#CE9178" bold="false" italic="false">
+                <Begin color="#808080">```</Begin>
+                <End color="#808080">```</End>
+            </Span>
+
+            <Span name="CodeBlock2" color="#CE9178" bold="false" italic="false">
+                <Begin color="#808080">~~~</Begin>
+                <End color="#808080">~~~</End>
+            </Span>
+
+            <Span name="InlineCode" color="#CE9178" bold="false" italic="false">
+                <Begin color="#808080">`</Begin>
+                <End color="#808080">`</End>
+            </Span>
+
+            <Span name="HtmlComment" color="#6A9955" bold="false" italic="true">
+                <Begin>&lt;!--</Begin>
+                <End>--&gt;</End>
+            </Span>
+
+            <Span name="HtmlTag" color="#569CD6" bold="false" italic="false">
+                <Begin>&lt;</Begin>
+                <End>&gt;</End>
+            </Span>
+
+            <Span name="BoldItalic" bold="true" italic="true">
+                <Begin>***</Begin>
+                <End>***</End>
+            </Span>
+
+            <Span name="Bold1" bold="true" italic="false">
+                <Begin>**</Begin>
+                <End>**</End>
+            </Span>
+
+            <Span name="Bold2" bold="true" italic="false">
+                <Begin>__</Begin>
+                <End>__</End>
+            </Span>
+
+            <Span name="Italic1" bold="false" italic="true">
+                <Begin>*</Begin>
+                <End>*</End>
+            </Span>
+
+            <Span name="Italic2" bold="false" italic="true">
+                <Begin>_</Begin>
+                <End>_</End>
+            </Span>
+
+            <Span name="Strike" color="#808080" bold="false" italic="false">
+                <Begin>~~</Begin>
+                <End>~~</End>
+            </Span>
+
+            <Span name="Link" color="#4EC9B0" bold="false" italic="false">
+                <Begin>[</Begin>
+                <End>)</End>
+            </Span>
+
+            <Span name="Image" color="#4FC1FF" bold="false" italic="false">
+                <Begin>![</Begin>
+                <End>)</End>
+            </Span>
+
+            <Span name="RefLink" color="#C586C0" stopateol="true" bold="false" italic="false">
+                <Begin>[</Begin>
+                <End>]:</End>
+            </Span>
+
+            <Span name="Footnote" color="#C586C0" bold="false" italic="false">
+                <Begin>[^</Begin>
+                <End>]</End>
+            </Span>
+
+            <Span name="BlockQuote" color="#6A9955" stopateol="true" bold="false" italic="true">
+                <Begin>&gt;</Begin>
+            </Span>
+
+            <Span name="H1" color="#4EC9B0" stopateol="true" bold="true" italic="false">
+                <Begin># </Begin>
+            </Span>
+
+            <Span name="H2" color="#4EC9B0" stopateol="true" bold="true" italic="false">
+                <Begin>## </Begin>
+            </Span>
+
+            <Span name="H3" color="#4EC9B0" stopateol="true" bold="true" italic="false">
+                <Begin>### </Begin>
+            </Span>
+
+            <Span name="H4" color="#4EC9B0" stopateol="true" bold="false" italic="false">
+                <Begin>#### </Begin>
+            </Span>
+
+            <Span name="H5" color="#4EC9B0" stopateol="true" bold="false" italic="false">
+                <Begin>##### </Begin>
+            </Span>
+
+            <Span name="H6" color="#4EC9B0" stopateol="true" bold="false" italic="false">
+                <Begin>###### </Begin>
+            </Span>
+
+            <Span name="HR" color="#858585" stopateol="true" bold="false" italic="false">
+                <Begin>---</Begin>
+            </Span>
+
+            <KeyWords name="TaskList" color="#4EC9B0" bold="false" italic="false">
+                <Key word="- [x]"/>
+                <Key word="- [ ]"/>
+                <Key word="* [x]"/>
+                <Key word="* [ ]"/>
+            </KeyWords>
+
+        </RuleSet>
+    </RuleSets>
+</SyntaxDefinition>

@@ -1,16 +1,51 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using EasyNote.Models;
+using EasyNote.Services;
 
-namespace EasyNote.View;
-
-public partial class SidebarView : UserControl
+namespace EasyNote.View
 {
-    public SidebarView()
+    public partial class SidebarView : UserControl
     {
-       
-    }
-    
-    public static void invisible()
-    {
-        
+        public List<Document> Documents { get; private set; }
+
+        public SidebarView()
+        {
+            InitializeComponent();
+            BuildTree();
+        }
+
+        private void BuildTree()
+        {
+            DocumentDAO dc = new DocumentDAO();
+            Documents = dc.GetAllDocuments();
+
+            foreach (var doc in Documents)
+            {
+                var button = new Button
+                {
+                    Content = doc.Title,
+                    Margin = new Thickness(2),
+                    Background = Brushes.Transparent,
+                    Foreground = Brushes.White,
+                    FontSize = 18, 
+                    BorderBrush = Brushes.Transparent,
+                    BorderThickness = new Thickness(0)
+                };
+                
+                button.Click += (sender, args) =>
+                {
+                    VisualerService.SaveDocument();
+                    DocumentDAO dl = new DocumentDAO();
+                    VisualerService.Now = dl.GetByPath(doc.Path);
+                    VisualerService.ExecuteScriptAsync("");
+                    VisualerService.RefreshContentAsync();
+                };
+
+                threev.Items.Add(button);
+            }
+        }
     }
 }

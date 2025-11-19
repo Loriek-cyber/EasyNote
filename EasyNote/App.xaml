@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:EasyNote"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-         
+
+        <Brush x:Key="TitleBarBrush" />
     </Application.Resources>
 </Application>
