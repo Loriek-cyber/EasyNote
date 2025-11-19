@@ -190,3 +190,8 @@ git_stats/*
 StyleCop.Cache
 bin
 obj
+
+.idea
+EasyNote/obj/
+EasyNote/bin/
+
