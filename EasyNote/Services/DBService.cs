@@ -1,11 +1,9 @@
-﻿// Source - https://stackoverflow.com/a
-// Posted by DA., modified by community. See post 'Timeline' for change history
-// Retrieved 2025-11-17, License - CC BY-SA 4.0
-
-using System;
+﻿using System;
 using System.IO;
 using System.Data;
 using System.Data.SQLite;
+using System.Threading.Tasks;
+using Microsoft.Win32; // <--- IMPORTANTE per OpenFileDialog / SaveFileDialog
 
 namespace EasyNote.Services;
 
@@ -14,11 +12,10 @@ public class DBService : IDisposable, IAsyncDisposable
     private readonly SQLiteConnection _connection;
     private const string DbFileName = "EasyNote.db";
 
-    // Correctly determine the base directory for the application.
-    // For a desktop app, this is more reliable than assuming the current directory.
-    private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-    private static readonly string DbPath = Path.Combine(BaseDirectory, "Database");
-    private static readonly string ConnectionString = $"Data Source={Path.Combine(DbPath, DbFileName)}";
+    // Directory di default (come prima)
+    private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+    private static string DbPath = Path.Combine(BaseDirectory, "Database");
+    private static string DefaultDbFullPath = Path.Combine(DbPath, DbFileName);
 
     public DBService()
     {
@@ -26,17 +23,55 @@ public class DBService : IDisposable, IAsyncDisposable
         {
             Directory.CreateDirectory(DbPath);
         }
-        _connection = new SQLiteConnection(ConnectionString);
-        try
+
+        // Creo la connessione ma NON la apro ancora
+        _connection = new SQLiteConnection
         {
-            _connection.Open();
-            Console.WriteLine("[SQLite] Connection opened successfully to: " + ConnectionString);
-        }
-        catch (Exception e)
+            ConnectionString = $"Data Source={DefaultDbFullPath}"
+        };
+    }
+
+    // Proprietà per sapere dove stai puntando
+    public string CurrentDatabasePath => _connection.ConnectionString;
+
+    /// <summary>
+    /// Crea un nuovo file DB scegliendo posizione e nome con il dialogo di Windows.
+    /// Restituisce true se l'utente ha scelto un file e la connessione è stata aperta.
+    /// </summary>
+    public static void NewDb()
+    {
+        var saveDialog = new SaveFileDialog
         {
-            Console.WriteLine($"[SQLite] Error opening connection: {e.Message}");
-            throw;
-        }
+            Title = "Crea nuovo database SQLite",
+            FileName = "EasyNote.db",
+            DefaultExt = ".db",
+            Filter = "Database SQLite (*.db)|*.db|Tutti i file (*.*)|*.*"
+        };
+
+        bool? result = saveDialog.ShowDialog();
+
+        if (result != true)
+            return; // Utente ha annullato
+        string selectedPath = saveDialog.FileName;
+        DbPath = selectedPath;
+    }
+
+    /// <summary>
+    /// Apre un database esistente scegliendolo con il dialogo di Windows.
+    /// </summary>
+    public static void OpenDb()
+    {
+        var openDialog = new OpenFileDialog
+        {
+            Title = "Apri database SQLite",
+            DefaultExt = ".db",
+            Filter = "Database SQLite (*.db)|*.db|Tutti i file (*.*)|*.*"
+        };
+        bool? result = openDialog.ShowDialog();
+        if (result != true)
+            return; // Utente ha annullato
+        string selectedPath = openDialog.FileName;
+        DbPath = selectedPath;
     }
 
     public DataTable SelectQuery(string query, SQLiteParameter[] parameters = null)
@@ -55,8 +90,6 @@ public class DBService : IDisposable, IAsyncDisposable
         catch (SQLiteException ex)
         {
             Console.WriteLine($"[SQLite] Error in SelectQuery: {ex.Message}");
-            // Depending on the application's needs, you might want to re-throw the exception
-            // or handle it in a way that informs the user.
         }
         return dt;
     }
@@ -76,14 +109,15 @@ public class DBService : IDisposable, IAsyncDisposable
         catch (Exception e)
         {
             Console.WriteLine($"[SQLite] Error in ExecuteNonQuery: {e.Message}");
-            throw; // Re-throwing the exception to let the caller handle it.
+            throw;
         }
         return result;
     }
 
     public void Dispose()
     {
-        _connection.Close();
+        if (_connection.State == ConnectionState.Open)
+            _connection.Close();
     }
 
     public async ValueTask DisposeAsync()

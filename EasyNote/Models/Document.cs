@@ -1,4 +1,6 @@
-﻿namespace EasyNote.Models
+﻿using System;
+
+namespace EasyNote.Models
 {
     public class Document
     {

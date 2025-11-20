@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EasyNote.Services;
@@ -89,7 +91,7 @@ namespace EasyNote.View
                 //for now this is on pause
                 //LanguageSelector.Visibility = Visibility.Visible;
                 TextEditor.ShowLineNumbers = true;
-                TextEditor.SyntaxHighlighting = SyntaxHelper.Python;
+                TextEditor.SyntaxHighlighting = SyntaxHelper.Java;
             }
             else if (Equals(sender, EditorMode.AImode))
             {

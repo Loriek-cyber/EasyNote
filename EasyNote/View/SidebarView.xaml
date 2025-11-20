@@ -7,6 +7,26 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <TreeView Name="threev" Background="#111C3A" BorderThickness="0" BorderBrush="Transparent">
+        <Button
+            Background="#111C3A" 
+            Foreground="White" 
+            BorderBrush="White"
+            
+            BorderThickness="1" 
+            Click="OpenDB" 
+            FontSize="20"
+            ></Button>
         
+        <Button 
+            Background="#111C3A" 
+            Foreground="White" 
+            BorderBrush="White"
+            
+            BorderThickness="1" 
+            Click="ButtonBase_OnClick" 
+            FontSize="20"
+        >
+            New Document
+        </Button>
     </TreeView>
 </UserControl>

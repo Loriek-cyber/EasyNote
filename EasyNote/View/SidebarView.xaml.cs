@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -46,6 +47,28 @@ namespace EasyNote.View
 
                 threev.Items.Add(button);
             }
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Document doc = new Document();
+            doc.Title = "Nuovo documento";
+            doc.Path = "path";
+            doc.LastModified = DateTime.Now;
+            Documents.Add(doc);
+            BuildTree();
+            foreach (var document in Documents)
+            {
+                DocumentDAO dc = new DocumentDAO();
+                if ( document.Id != null)
+                    dc.Update(document);
+                else dc.Insert(document);
+            }
+        }
+
+        private void OpenDB(object sender, RoutedEventArgs e)
+        {
+            DBService.NewDb();
         }
     }
 }
