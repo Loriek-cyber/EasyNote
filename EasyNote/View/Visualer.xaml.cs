@@ -21,7 +21,7 @@ public partial class Visualer : UserControl
             await VisualerService.InitAsync(WebViewControl); // 'content' è il nome del WebView2 nel XAML
         }
         catch (Exception ex)
-        {
+        { 
             System.Diagnostics.Debug.WriteLine($"Init error: {ex.Message}");
         }
     }

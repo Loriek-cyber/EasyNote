@@ -41,7 +41,8 @@ namespace EasyNote.View
                     };
                     button.Click += (sender, args) =>
                     {
-                      VisualerService.Now = document;  
+                      VisualerService.Now = document;
+                      VisualerService.UpdateContentAsync();
                     };
                     
                     threev.Items.Add(button);
@@ -82,7 +83,7 @@ namespace EasyNote.View
             OpenFileDialog opd = new OpenFileDialog();
             bool? result = opd.ShowDialog();
             if (result != true) return;
-            App.dbs.Add(new DBService(opd.FileName));
+            App.dbs.Add(opd.FileName);
             BuildTree();
         }
         
@@ -105,7 +106,7 @@ namespace EasyNote.View
                     SQLiteConnection.CreateFile(dbPath);
                 }
 
-                App.dbs.Add(new DBService(dbPath));
+                App.dbs.Add(dbPath);
             }
             BuildTree();
         }

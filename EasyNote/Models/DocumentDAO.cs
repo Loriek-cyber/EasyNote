@@ -17,11 +17,7 @@ public class DocumentDAO
          * Modificato per fare in modo che questo sia l'unico punto di accesso al database
          */
         //esiste a propri
-        db = App.dbs[^1];
-        if (db == null)
-        {
-            throw new UnreachableException();
-        }
+        db = new DBService(App.dbs[^1]);
     }
 
     public void Insert(Document doc)
@@ -114,4 +110,14 @@ public class DocumentDAO
             db.ExecuteNonQuery(query, parameters);
         }
     }
+
+    public void InsertAll(List<Document> documents)
+    {
+        foreach (var doc in documents)
+        {
+            if(doc.Id!=null) Update(doc);
+            else Insert(doc);
+        };
+    }
+    public void Dispose() => db.Dispose();
 }

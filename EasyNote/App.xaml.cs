@@ -9,6 +9,6 @@ namespace EasyNote
 {
     public partial class App : Application
     {
-        public static List<DBService> dbs = new List<DBService>();
+        public static List<string> dbs = new List<string>();
     }
 }
