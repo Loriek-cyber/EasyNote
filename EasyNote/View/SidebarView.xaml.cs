@@ -54,10 +54,11 @@ namespace EasyNote.View
         {
             if (App.dbs.Count != 0)
             {
+                
                 Document doc = new Document();
-                doc.Title = "new Document";
+                doc.Title = InputDialog.Show("Insert the new document title:");;
                 doc.Content = "";
-                doc.Path = "testing";
+                doc.Path =doc.Title + ".md" ;;
                 doc.LastModified = DateTime.Now;
                 DocumentDAO dao = null;
                 try

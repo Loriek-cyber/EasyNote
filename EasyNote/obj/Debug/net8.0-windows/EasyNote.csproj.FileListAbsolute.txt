@@ -70,3 +70,5 @@ C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\run
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\bin\Debug\net8.0-windows\runtimes\win-x86\native\SQLite.Interop.dll
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\SidebarView.g.cs
 C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\App.baml
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\InputDialog.g.cs
+C:\Users\Arjel Buzi\RiderProjects\EasyNote\EasyNote\obj\Debug\net8.0-windows\View\InputDialog.baml
