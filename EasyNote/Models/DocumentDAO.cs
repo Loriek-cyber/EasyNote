@@ -3,40 +3,31 @@ using System;
 using System.Data;
 using System.Data.SQLite;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EasyNote.Models;
 
 public class DocumentDAO
 {
     private DBService db;
-    public const string CreateTableQuery = $@"
-        CREATE TABLE IF NOT EXISTS Document (
-            Id TEXT PRIMARY KEY,
-            Path TEXT NOT NULL UNIQUE,
-            Title TEXT NOT NULL,
-            Content TEXT,
-            LastModified TEXT NOT NULL
-        );";
 
     public DocumentDAO() 
     {
         /*
          * Modificato per fare in modo che questo sia l'unico punto di accesso al database
          */
-        try
+        //esiste a propri
+        db = App.dbs[^1];
+        if (db == null)
         {
-            db = new DBService();
-        }
-        catch (DBService.NotConnectedException)
-        {
-            throw new DBService.NotConnectedException("Nessun database trovato.:2:");
+            throw new UnreachableException();
         }
     }
 
     public void Insert(Document doc)
     {
         const string query = "INSERT OR IGNORE INTO Document (Id, Path, Title, Content, LastModified) VALUES (@Id, @Path, @Title, @Content, @LastModified)";
-        using (db)
+         
         {
             var parameters = new SQLiteParameter[]
             {
@@ -53,7 +44,7 @@ public class DocumentDAO
     public void Update(Document doc)
     {
         const string query = "UPDATE Document SET Title = @Title, Content = @Content, LastModified = @LastModified WHERE Id = @Id";
-        using (db)
+        
         {
             var parameters = new SQLiteParameter[]
             {
@@ -69,7 +60,6 @@ public class DocumentDAO
     public Document GetByPath(string path)
     {
         const string query = "SELECT * FROM Document WHERE Path = @Path";
-        using (db)
         {
             var parameters = new SQLiteParameter[]
             {
@@ -96,7 +86,6 @@ public class DocumentDAO
     {
         const string query = "SELECT * FROM Document ORDER BY Title";
         var documents = new List<Document>();
-        using (db)
         {
             var dt = db.SelectQuery(query);
             foreach (DataRow row in dt.Rows)
@@ -117,7 +106,6 @@ public class DocumentDAO
     public void Delete(string id)
     {
         const string query = "DELETE FROM Document WHERE Id = @Id";
-        using (db)
         {
             var parameters = new SQLiteParameter[]
             {

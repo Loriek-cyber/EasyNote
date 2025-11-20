@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using EasyNote.Models;
 using EasyNote.Services;
+using Microsoft.Win32;
 
 namespace EasyNote.View
 {
@@ -20,22 +23,104 @@ namespace EasyNote.View
 
         private void BuildTree()
         {
-            DocumentDAO dl = null;
-            try
+            if (App.dbs.Count != 0)
             {
-                dl = new DocumentDAO();
-                
+                DocumentDAO dao = new DocumentDAO();
+                Documents = dao.GetAllDocuments();
+                foreach (var document in Documents)
+                {
+                    var button = new Button
+                    {
+                        Content = document.Title,
+                        Margin = new Thickness(2),
+                        Background = Brushes.Transparent,
+                        Foreground = Brushes.White,
+                        FontSize = 18, 
+                        BorderBrush = Brushes.Transparent,
+                        BorderThickness = new Thickness(0),
+                    };
+                    button.Click += (sender, args) =>
+                    {
+                      VisualerService.Now = document;  
+                    };
+                    
+                    threev.Items.Add(button);
+                }
             }
-            catch (DBService.NotConnectedException)
-            {
-                return;
-            }
-            Documents = dl.GetAllDocuments();
+        }
 
-            if(Documents == null) return;
-            foreach (var doc in Documents)
+        public void CreateDocument(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (App.dbs.Count != 0)
             {
-                var button = new Button
+                Document doc = new Document();
+                doc.Title = "new Document";
+                doc.Content = "";
+                doc.Path = "testing";
+                doc.LastModified = DateTime.Now;
+                DocumentDAO dao = null;
+                try
+                {
+                    dao = new DocumentDAO();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("C'e' un problema con la connessione al database:");
+                }
+                dao?.Insert(doc);
+                Documents.Add(doc);
+            }
+            else
+            {
+                Console.WriteLine("Database non esistente\n");
+            }
+            BuildTree();
+        }
+
+        private void OpenDb(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog opd = new OpenFileDialog();
+            bool? result = opd.ShowDialog();
+            if (result != true) return;
+            App.dbs.Add(new DBService(opd.FileName));
+            BuildTree();
+        }
+        
+        private void NewDb(object sender, RoutedEventArgs e)
+        {
+            var ofd = new OpenFolderDialog();
+
+            bool? result = ofd.ShowDialog();
+            if (result == true)
+            {
+                // FolderName = path completo della cartella scelta
+                string folderPath = ofd.FolderName;
+                if (string.IsNullOrWhiteSpace(folderPath))
+                    return;
+
+                string dbPath = Path.Combine(folderPath, "EasyNote.db");
+
+                if (!File.Exists(dbPath))
+                {
+                    SQLiteConnection.CreateFile(dbPath);
+                }
+
+                App.dbs.Add(new DBService(dbPath));
+            }
+            BuildTree();
+        }
+
+        
+    }
+    
+    
+}
+
+
+//Bottone -> 
+
+/*
+ var button = new Button
                 {
                     Content = doc.Title,
                     Margin = new Thickness(2),
@@ -45,48 +130,5 @@ namespace EasyNote.View
                     BorderBrush = Brushes.Transparent,
                     BorderThickness = new Thickness(0)
                 };
-                
-                button.Click += (sender, args) =>
-                {
-                    VisualerService.SaveDocument();
-                    DocumentDAO dl = new DocumentDAO();
-                    VisualerService.Now = dl.GetByPath(doc.Path);
-                    VisualerService.ExecuteScriptAsync("");
-                    VisualerService.RefreshContentAsync();
-                };
 
-                threev.Items.Add(button);
-            }
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            Document doc = new Document();
-            doc.Title = "Nuovo documento";
-            doc.Path = "path";
-            doc.LastModified = DateTime.Now;
-            if (Documents == null) Documents = new List<Document>();
-            Console.WriteLine("if you are here you are fucked");
-            Console.WriteLine(DBService.DbPath);
-            Documents.Add(doc);
-            BuildTree();
-            foreach (var document in Documents)
-            {
-                DocumentDAO dc = new DocumentDAO();
-                if ( document.Id != null)
-                    dc.Update(document);
-                else dc.Insert(document);
-            }
-        }
-
-        private void OpenDB(object sender, RoutedEventArgs routedEventArgs)
-        {
-            DBService.OpenDb();
-        }
-
-        private void CreateDB(object sender, RoutedEventArgs routedEventArgs)
-        {       
-            DBService.NewDb();
-        }
-    }
-}
+ */
