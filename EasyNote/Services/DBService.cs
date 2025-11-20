@@ -3,42 +3,48 @@ using System.IO;
 using System.Data;
 using System.Data.SQLite;
 using System.Threading.Tasks;
-using Microsoft.Win32; // <--- IMPORTANTE per OpenFileDialog / SaveFileDialog
+using Microsoft.Win32; 
 
 namespace EasyNote.Services;
 
 public class DBService : IDisposable, IAsyncDisposable
 {
+    //connection ReadOnly
     private readonly SQLiteConnection _connection;
-    private const string DbFileName = "EasyNote.db";
-
-    // Directory di default (come prima)
-    private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-    private static string DbPath = Path.Combine(BaseDirectory, "Database");
-    private static string DefaultDbFullPath = Path.Combine(DbPath, DbFileName);
+    // Percorso del DB globale
+    public static string DbPath { get; set; }
 
     public DBService()
     {
-        if (!Directory.Exists(DbPath))
+        if (string.IsNullOrEmpty(DbPath)) 
+            throw new NotConnectedException("Nessun database selezionato. Usa NewDb o OpenDb prima di istanziare il servizio.");
+        // Configurazione stringa di connessione
+        
+        string connectionString = $"Data Source={DbPath};Version=3;";
+
+        _connection = new SQLiteConnection(connectionString);
+
+        try
         {
-            Directory.CreateDirectory(DbPath);
+            // CORREZIONE 2: Bisogna aprire la connessione!
+            _connection.Open();
         }
-
-        // Creo la connessione ma NON la apro ancora
-        _connection = new SQLiteConnection
+        catch (Exception ex)
         {
-            ConnectionString = $"Data Source={DefaultDbFullPath}"
-        };
+            throw new NotConnectedException($"Impossibile aprire il database: {ex.Message}");
+        }
     }
-
-    // Proprietà per sapere dove stai puntando
-    public string CurrentDatabasePath => _connection.ConnectionString;
+    
+    /*
+     * Gestione Percorso DB (Statici)
+     */
 
     /// <summary>
     /// Crea un nuovo file DB scegliendo posizione e nome con il dialogo di Windows.
-    /// Restituisce true se l'utente ha scelto un file e la connessione è stata aperta.
     /// </summary>
-    public static void NewDb()
+    
+    
+    public static bool NewDb()
     {
         var saveDialog = new SaveFileDialog
         {
@@ -50,16 +56,34 @@ public class DBService : IDisposable, IAsyncDisposable
 
         bool? result = saveDialog.ShowDialog();
 
-        if (result != true)
-            return; // Utente ha annullato
-        string selectedPath = saveDialog.FileName;
-        DbPath = selectedPath;
+        if (result == true && !string.IsNullOrWhiteSpace(saveDialog.FileName))
+        {
+            DbPath = saveDialog.FileName;
+            Console.WriteLine("[DBService] Setting database path to " + DbPath);
+
+            // Crea un database SQLite valido
+            if (!File.Exists(DbPath))
+            {
+                SQLiteConnection.CreateFile(DbPath);
+            }
+
+            // Inizializza il DB (SQLite scrive l'header e lo rende "valido")
+            using (var conn = new SQLiteConnection("Data Source=" + DbPath))
+            {
+                conn.Open();
+            }
+            
+            return true;
+        }
+
+        return false;
     }
+
 
     /// <summary>
     /// Apre un database esistente scegliendolo con il dialogo di Windows.
     /// </summary>
-    public static void OpenDb()
+    public static bool OpenDb()
     {
         var openDialog = new OpenFileDialog
         {
@@ -67,13 +91,25 @@ public class DBService : IDisposable, IAsyncDisposable
             DefaultExt = ".db",
             Filter = "Database SQLite (*.db)|*.db|Tutti i file (*.*)|*.*"
         };
+
         bool? result = openDialog.ShowDialog();
-        if (result != true)
-            return; // Utente ha annullato
-        string selectedPath = openDialog.FileName;
-        DbPath = selectedPath;
+
+        if (result == true && !string.IsNullOrWhiteSpace(openDialog.FileName))
+        {
+            DbPath = openDialog.FileName;
+            return true;
+        }
+
+        return false;
     }
 
+    
+    /*
+     * <summary>
+     * Questa sezione riguarda l'esecuzione delle query.
+     * </summary>
+     */
+    
     public DataTable SelectQuery(string query, SQLiteParameter[] parameters = null)
     {
         var dt = new DataTable();
@@ -84,12 +120,15 @@ public class DBService : IDisposable, IAsyncDisposable
             {
                 cmd.Parameters.AddRange(parameters);
             }
+            
             using var adapter = new SQLiteDataAdapter(cmd);
             adapter.Fill(dt);
         }
         catch (SQLiteException ex)
         {
             Console.WriteLine($"[SQLite] Error in SelectQuery: {ex.Message}");
+            // In produzione potresti voler rilanciare l'eccezione o loggarla su file
+            throw; 
         }
         return dt;
     }
@@ -114,14 +153,32 @@ public class DBService : IDisposable, IAsyncDisposable
         return result;
     }
 
+    // Pattern Dispose corretto
     public void Dispose()
     {
-        if (_connection.State == ConnectionState.Open)
-            _connection.Close();
+        if (_connection != null)
+        {
+            if (_connection.State == ConnectionState.Open)
+                _connection.Close();
+            
+            _connection.Dispose();
+        }
+        GC.SuppressFinalize(this);
     }
 
     public async ValueTask DisposeAsync()
     {
-        Dispose();
+        if (_connection is not null)
+        {
+             await _connection.CloseAsync();
+             await _connection.DisposeAsync();
+        }
+        GC.SuppressFinalize(this);
+    }
+
+    // Eccezione personalizzata
+    public class NotConnectedException : Exception
+    {
+        public NotConnectedException(string message) : base("[DBService] " + message) { }
     }
 }

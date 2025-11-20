@@ -20,9 +20,19 @@ namespace EasyNote.View
 
         private void BuildTree()
         {
-            DocumentDAO dc = new DocumentDAO();
-            Documents = dc.GetAllDocuments();
+            DocumentDAO dl = null;
+            try
+            {
+                dl = new DocumentDAO();
+                
+            }
+            catch (DBService.NotConnectedException)
+            {
+                return;
+            }
+            Documents = dl.GetAllDocuments();
 
+            if(Documents == null) return;
             foreach (var doc in Documents)
             {
                 var button = new Button
@@ -55,6 +65,9 @@ namespace EasyNote.View
             doc.Title = "Nuovo documento";
             doc.Path = "path";
             doc.LastModified = DateTime.Now;
+            if (Documents == null) Documents = new List<Document>();
+            Console.WriteLine("if you are here you are fucked");
+            Console.WriteLine(DBService.DbPath);
             Documents.Add(doc);
             BuildTree();
             foreach (var document in Documents)
@@ -66,8 +79,13 @@ namespace EasyNote.View
             }
         }
 
-        private void OpenDB(object sender, RoutedEventArgs e)
+        private void OpenDB(object sender, RoutedEventArgs routedEventArgs)
         {
+            DBService.OpenDb();
+        }
+
+        private void CreateDB(object sender, RoutedEventArgs routedEventArgs)
+        {       
             DBService.NewDb();
         }
     }

@@ -11,11 +11,22 @@
             Background="#111C3A" 
             Foreground="White" 
             BorderBrush="White"
-            
+            Width="100"
             BorderThickness="1" 
             Click="OpenDB" 
             FontSize="20"
-            ></Button>
+            >Crea</Button>
+        <Button
+            Background="#111C3A" 
+            Foreground="White" 
+            BorderBrush="White"
+            Width="100"
+            BorderThickness="1" 
+            Click="CreateDB" 
+            FontSize="20"
+        >Open</Button>
+
+        
         
         <Button 
             Background="#111C3A" 

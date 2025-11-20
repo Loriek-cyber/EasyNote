@@ -28,7 +28,6 @@
     </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\" />
     <Folder Include="ViewModels\" />
     <Folder Include="WebScript\highlight\" />
     <Folder Include="WebScript\mathjax\" />
