@@ -34,7 +34,6 @@ namespace EasyNote
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            VisualerService.SaveDocument();
             Close();
         }
 

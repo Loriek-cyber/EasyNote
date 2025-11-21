@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Threading;
 using EasyNote.Models;
 using Microsoft.Web.WebView2.Wpf;
+
 namespace EasyNote.Services
 {
     public static class VisualerService
@@ -11,26 +12,66 @@ namespace EasyNote.Services
         private static WebView2? WebView { get; set; }
         public static Document? Now { get; set; }
         private static bool IsInitialized => WebView?.CoreWebView2 != null;
-        
-        
-        
-        //code section to add to the update:
-        //serve a fare un update
-        public static async Task SaveDocument()
-        {
-            Console.WriteLine("[Save Document] Starting...\n");
-            DocumentDAO dc = new DocumentDAO();
-            if (Now != null) dc.Update(Now);
-            Console.WriteLine("[Save Document] End...\n");
-        }
+
+        private static DispatcherTimer? _saveTimer;
+        private static readonly TimeSpan SaveDelay = TimeSpan.FromSeconds(1); // Save 1 second after the last change
 
         public static async Task AddToDocument(string content)
         {
-            Now.Content += "\n"+content;
+            if (Now == null) return;
+            Now.Content += "\n" + content;
+            RequestSave(); // Request a save after modification
             await UpdateContentAsync();
         }
-        
-        
+
+        public static void RequestSave()
+        {
+            if (_saveTimer == null) return;
+            
+            // a document that has no ID is a new document that hasn't been saved yet.
+            // the first save is done through an explicit user action (e.g. create document button)
+            if (Now?.Id == null) return;
+
+            _saveTimer.Stop();
+            _saveTimer.Start();
+        }
+
+        private static async void SaveDocumentAsync(object? sender, EventArgs e)
+        {
+            if (_saveTimer == null || Now == null || Now.Id == null) return;
+            
+            _saveTimer.Stop();
+
+            // Make sure LastModified is updated before saving
+            Now.LastModified = DateTime.Now;
+
+            // It's important to copy the document data to a new object
+            // to avoid issues with the object being modified while saving.
+            var docToSave = new Document
+            {
+                Id = Now.Id,
+                Title = Now.Title,
+                Content = Now.Content,
+                Path = Now.Path,
+                LastModified = Now.LastModified
+            };
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var dc = new DocumentDAO())
+                    {
+                        dc.Update(docToSave);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // It would be good to have a logging mechanism here
+                    Console.WriteLine($"Error saving document: {ex.Message}");
+                }
+            });
+        }
         
         // Call this once from the control that contains the WebView2
         public static async Task InitAsync(WebView2 webView)
@@ -39,42 +80,24 @@ namespace EasyNote.Services
             await EnsureReadyAsync();
             
             await NavigateToStringAsync(MarkdownService.RenderMarkdownLatex(Now?.Markdown()));
-            
-            //going to remove this double call and integrate the document
-            //await UpdateContentAsync(ActiveView.Html);
+
+            // Initialize the save timer
+            _saveTimer = new DispatcherTimer
+            {
+                Interval = SaveDelay
+            };
+            _saveTimer.Tick += SaveDocumentAsync;
         }
 
         public static async Task UpdateContentAsync()
         {
             EnsureServiceCreated();
-
-            if (Now == null)
-            {
-                Now = new Document();
-            } ;
-            
-            await EnsureReadyAsync();
-            await NavigateToStringAsync(MarkdownService.RenderMarkdownLatex(Now?.Markdown()));
-            
-            //TODO: Capire se il salvataggio va bene qui
-            /*
-             * DocumentDAO dc = new DocumentDAO();
-             * dc.Update(Now);
-             */
-        }
-
-        public static async Task RefreshContentAsync()
-        {
-            EnsureServiceCreated();
-            if (Now == null) return;
+            if(Now == null)return; //exit without doing anything
             await EnsureReadyAsync();
             await NavigateToStringAsync(MarkdownService.RenderMarkdownLatex(Now?.Markdown()));
         }
-
-        // ----------------- public API -----------------
-        /*
-         * Questi sono dei servizi deprecabili ma che non rimuovero
-         */
+        
+        // ----------------- public API ----------------- 
         
         public static async Task NavigateAsync(string url)
         {
@@ -93,13 +116,12 @@ namespace EasyNote.Services
             });
         }
 
-        // ----------------- helpers -----------------
+        // ----------------- helpers ----------------- 
 
         private static async Task EnsureReadyAsync()
         {
             EnsureServiceCreated();
             
-            // FIX: Assicurati di essere sul thread UI
             if (WebView.Dispatcher.CheckAccess())
             {
                 await WebView.EnsureCoreWebView2Async();
@@ -109,7 +131,7 @@ namespace EasyNote.Services
                 await WebView.Dispatcher.InvokeAsync(async () =>
                 {
                     await WebView.EnsureCoreWebView2Async();
-                }).Task.Unwrap(); // IMPORTANTE: Unwrap() per aspettare il Task interno
+                }).Task.Unwrap();
             }
         }
 
@@ -123,7 +145,6 @@ namespace EasyNote.Services
             if (WebView == null)
                 throw new InvalidOperationException("VisualerService not initialized. Call InitAsync(WebView2) first.");
         }
-
         
         private static async Task OnUiAsync(Func<Task> action)
         {

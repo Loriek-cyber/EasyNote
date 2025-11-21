@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace EasyNote.Models
 {
@@ -9,16 +10,23 @@ namespace EasyNote.Models
         public string Title { get; set; }
         public string Content { get; set; }      // Markdown o LaTeX// "Markdown" | "LaTeX"
         public DateTime LastModified { get; set; }
-        public string toString()
-        {
-            return string.Format("Title: {0}, Content: {1}", Title, Path);
-        }
+        
 
-        public string Markdown()
+        public string Markdown(bool includeMetadata = true, string dateFormat = "dd/MM/yyyy HH:mm")
         {
-            return $@"_{Path}  : modificato: {LastModified.ToString()}_"+"\n"+
-                   $@"#{Title}"+"\n"+
-                   $@"{Content}"+"\n";
+            var sb = new StringBuilder();
+
+            if (includeMetadata)
+            {
+                sb.AppendLine($"*{Path} — Modificato: {LastModified.ToString(dateFormat)}*");
+                sb.AppendLine();
+            }
+
+            sb.AppendLine($"# {Title}");
+            sb.AppendLine();
+            sb.Append(Content);
+
+            return sb.ToString();
         }
     }
     

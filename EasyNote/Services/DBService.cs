@@ -33,6 +33,7 @@ namespace EasyNote.Services
             try
             {
                 _connection.Open();
+                ExecuteNonQuery(CreateTableQuery);
                 Console.WriteLine("[SQLite] Connessione stabilita.");
             }
             catch (Exception ex)

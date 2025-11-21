@@ -4,37 +4,163 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <TreeView Name="threev" Background="#111C3A" BorderThickness="0" BorderBrush="Transparent">
-            <Button
-                Background="#111C3A" 
-                Foreground="White" 
-                BorderBrush="White"
-                Width="200"
-                BorderThickness="1" 
-                FontSize="20"
-                Click="NewDb"
-                Content="New"
-                />
-            <Button
-                Background="#111C3A" 
-                Foreground="White" 
-                BorderBrush="White"
-                Width="200"
-                BorderThickness="1"
-                Click="OpenDb"
-                Content="Open" 
-                FontSize="20"
-            />
-            <Button 
-                Background="#111C3A" 
-                Foreground="White" 
-                BorderBrush="White"
-                Width="200"
-                BorderThickness="1" 
-                FontSize="20"
-                Click="CreateDocument"
-                Content="Nuovo Documento"
-            />
-    </TreeView>
+             d:DesignHeight="600" d:DesignWidth="280">
+    
+    <UserControl.Resources>
+        <!-- Button Style -->
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="BorderBrush" Value="#3A4A6B"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Margin" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1E2D4D"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#4A6A9B"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2A3D5D"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Document Item Button Style -->
+        <Style x:Key="DocumentItemStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#C0C0C0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}"
+                                Margin="4,2">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📄" Margin="0,0,10,0" FontSize="14"/>
+                                <ContentPresenter VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1A2744"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#243354"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="#0D1628">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="1" Margin="0,8">
+            <Button Content="➕  New Database" 
+                    Style="{StaticResource SidebarButtonStyle}"
+                    Click="NewDb"/>
+            <Button Content="📂  Open Database" 
+                    Style="{StaticResource SidebarButtonStyle}"
+                    Click="OpenDb"/>
+            <Button Content="📝  New Document" 
+                    Style="{StaticResource SidebarButtonStyle}"
+                    Click="CreateDocument"/>
+        </StackPanel>
+        
+        <!-- Separator -->
+        <Border Grid.Row="1" 
+                VerticalAlignment="Bottom"
+                Height="1" 
+                Background="#1E2D4D" 
+                Margin="16,8"/>
+        
+        <!-- Documents Section -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Section Header -->
+            <TextBlock Grid.Row="0"
+                       Text="DOCUMENTS" 
+                       Foreground="#6B7B9B"
+                       FontSize="11"
+                       FontWeight="SemiBold"
+                       Margin="20,16,20,8"
+                       />
+            
+            <!-- Documents List -->
+            <ScrollViewer Grid.Row="1" 
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="DocumentsList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Title}"
+                                    Style="{StaticResource DocumentItemStyle}"
+                                    Tag="{Binding}"
+                                    Click="DocumentItem_Click"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            
+            <!-- Empty State -->
+            <StackPanel x:Name="EmptyState"
+                        Grid.Row="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Visibility="Collapsed">
+                <TextBlock Text="📚" 
+                           FontSize="48" 
+                           HorizontalAlignment="Center"
+                           Foreground="White"
+                           Margin="0,0,0,16"/>
+                <TextBlock Text="No documents yet" 
+                           Foreground="#6B7B9B"
+                           FontSize="14"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Create or open a database to start" 
+                           Foreground="#4A5A7B"
+                           FontSize="12"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </UserControl>

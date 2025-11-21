@@ -198,8 +198,6 @@ namespace EasyNote.View
                 //Prendo il testo dal terminale
                 string text = GetText();
                 if (text == "" ) return; 
-                
-
                 if (CurrentMode == EditorMode.Code)
                 {
                     string formatted =
@@ -217,7 +215,7 @@ namespace EasyNote.View
                     string formatted = $"{text}";
                     await VisualerService.AddToDocument(formatted);
                 }
-
+                
                 Clear(); 
             }
             catch (Exception e)
