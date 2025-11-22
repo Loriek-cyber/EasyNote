@@ -5,11 +5,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using EasyNote.Services;
 using EasyNote.Syntax;
+using YourNamespace.Services;
 
 namespace EasyNote.View
 {
-    public partial class TerminalView // Non hai specificato, ma assumo sia UserControl o Window
+    public partial class TerminalView : UserControl
     {
+        
         
         
         public enum EditorMode
@@ -38,6 +40,7 @@ namespace EasyNote.View
             InitializeComponent();
             InitializeEditor();
             _isInitialized = true;
+            
         }
 
         private void InitializeEditor()
@@ -93,14 +96,24 @@ namespace EasyNote.View
                 TextEditor.ShowLineNumbers = true;
                 TextEditor.SyntaxHighlighting = SyntaxHelper.Java;
             }
-            else if (Equals(sender, EditorMode.AImode))
+            else if (Equals(sender, AImode))
             {
                 _currentMode = EditorMode.AImode;
                 LanguageSelector.Visibility = Visibility.Collapsed;
-                TextEditor.ShowLineNumbers = false;
+                TextEditor.ShowLineNumbers = true;
             }
         }
 
+        
+        
+        
+        private static void up_button()
+        {
+            
+        }
+        
+        
+        
         private void ChangeMode(EditorMode mode)
         {
             // Impostando IsChecked = true, si scatenerà l'evento OnModeChanged
@@ -119,6 +132,10 @@ namespace EasyNote.View
                 // Non serve più: TextEditor.ShowLineNumbers = true;
                 // Verrà gestito dall'evento OnModeChanged
             }
+            else if(mode == EditorMode.AImode)
+            {
+                AImode.IsChecked = true;
+            }
         }
 
         private void LanguageSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -128,6 +145,9 @@ namespace EasyNote.View
                 _selectedLanguage = selectedLanguage;
             }
         }
+        
+        
+        
 
         private void TextEditor_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -164,6 +184,10 @@ namespace EasyNote.View
                         ChangeMode(EditorMode.Latex);
                         e.Handled = true;
                         break;
+                    case Key.P:
+                        ChangeMode(EditorMode.AImode);
+                        e.Handled = true;
+                        break;
                     case Key.D1: // Header 1
                         InsertText("# ", 2);
                         e.Handled = true;
@@ -190,19 +214,19 @@ namespace EasyNote.View
         private string GetText() => TextEditor.Text;
         private void SetText(string text) => TextEditor.Text = text;
         private void Clear() => TextEditor.Clear();
-
-        public async void SendData()
+        
+        
+        
+        public async Task SendData()
         {
             try
             {
-                //Prendo il testo dal terminale
                 string text = GetText();
-                if (text == "" ) return; 
+                if (string.IsNullOrEmpty(text)) return; 
+        
                 if (CurrentMode == EditorMode.Code)
                 {
-                    string formatted =
-                        $"```{_selectedLanguage}\n{text}\n```\n ";
-
+                    string formatted = $"```{_selectedLanguage}\n{text}\n```\n ";
                     await VisualerService.AddToDocument(formatted);
                 }
                 else if (CurrentMode == EditorMode.Latex)
@@ -210,17 +234,27 @@ namespace EasyNote.View
                     string formatted = $"${text}$";
                     await VisualerService.AddToDocument(formatted);
                 }
+                else if (CurrentMode == EditorMode.AImode)
+                {
+                    using var ai = new AiService();
+                    await ai.SelectRandomModelAsync();
+                    TextEditor.IsReadOnly = true;
+                    Clear();//questo serve per cancellare il testo che ho scritto prima della generazione è pià grafico che altro
+                    SetText("Generazione in corso...");
+                    string response = await ai.GenerateAsync(text);
+                    TextEditor.IsReadOnly= false;
+                    await VisualerService.AddToDocument(response);
+                }
                 else
                 {
-                    string formatted = $"{text}";
-                    await VisualerService.AddToDocument(formatted);
+                    await VisualerService.AddToDocument(text);
                 }
-                
+        
                 Clear(); 
             }
             catch (Exception e)
             {
-                Console.WriteLine("[SendData] Error: 1] " + e.Message + "Il messaggio è stato cancellato.");
+                Console.WriteLine($"[SendData] Error: {e.Message}");
             }
         }
     }
